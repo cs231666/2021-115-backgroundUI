@@ -79,7 +79,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { mapMutations } from 'vuex'
 Vue.prototype.axios = axios
-import { getToken, getCode } from '@/utils/auth'
+import { getToken, getCode, setToken, setCode } from '@/utils/auth'
 
 export default {
   name: 'Login',
@@ -184,22 +184,19 @@ export default {
     //   }
     // },
     // 引入loginChange方法
-    //...mapMutations(['loginChange']),
+    // ...mapMutations(['loginChange']),
     handleLogin() {
       // eslint-disable-next-line no-undef
-      // this.axios({
-      //   methods: 'get',
-      //   url: 'user/getUsers',
-      //   params: {
-      //     username: this.loginForm.username,
-      //     password: this.loginForm.password
-      //   }
-      //   //  data: this.loginForm
-      // })
-      this.$store.dispatch('user/login', this.loginForm)
+      // const { data: res } = awaitthis.axios.get('/user/userLogin?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
+      // console.log('123' + res)
+      this.axios.get('/user/userLogin?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
+      // this.$store.dispatch('user/login', this.loginForm)
         .then(successResponse => {
           // 获取后端返回数据
           // console.log('123456')
+          console.log(successResponse)
+          setToken(successResponse.data.data.token)
+          setCode(successResponse.data.code)
           console.log(getToken())
           console.log(getCode())
           // console.log(successResponse)

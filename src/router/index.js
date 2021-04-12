@@ -75,7 +75,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/userinfo',
     name: 'Example',
     meta: { title: '个人中心', icon: 'el-icon-user-solid' },
     children: [
@@ -94,14 +94,14 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/example',
+    path: '/class',
     component: Layout,
-    redirect: '/example/table1',
+    redirect: '/class',
     name: 'Example',
     meta: { title: '班课', icon: 'form' },
     children: [
       {
-        path: 'table0',
+        path: 'query',
         name: 'Table',
         component: () => import('@/views/class/index'),
         meta: { title: '班课查询', icon: 'table' }
@@ -231,8 +231,14 @@ export const constantRoutes = [
       {
         path: 'tree5',
         name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/system/datadictionary/index'),
         meta: { title: '数据字典' }
+      },
+      {
+        path: 'tree6',
+        name: 'Tree',
+        component: () => import('@/views/system/systemparameter/index'),
+        meta: { title: '系统参数' }
       }
     ]
   },

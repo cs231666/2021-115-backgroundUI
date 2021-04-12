@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 import da from 'element-ui/src/locale/lang/da'
-
+import qs from 'qs'
 export function login(data) {
   return request({
     url: '/user/userLogin',
@@ -8,6 +8,22 @@ export function login(data) {
     params: {
       username: data.username,
       password: data.password
+    }
+  })
+}
+
+export function register(data) {
+  console.log('api user.js register()')
+  console.log(data)
+  return request({
+    url: '/user/userRegister',
+    method: 'post',
+    data: {
+      // name: data.name,
+      password: data.password,
+      // role: data.role,
+      // sno: data.sno,
+      username: data.username
     }
   })
 }

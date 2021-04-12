@@ -24,10 +24,11 @@
           <!--          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">-->
           <!--            <el-dropdown-item>Docs</el-dropdown-item>-->
           <!--          </a>-->
-
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">登出</span>
-          </el-dropdown-item>
+          <router-link to="/login">
+            <el-dropdown-item divided @click.native="logout">
+              <span style="display:block;">登出</span>
+            </el-dropdown-item>
+          </router-link>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -63,7 +64,7 @@ export default {
     logout() {
       // await this.$store.dispatch('user/logout')
       // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-      this.$router.push(`/login`)
+      this.$router.push({ path: '/login' })
     }
   }
 }

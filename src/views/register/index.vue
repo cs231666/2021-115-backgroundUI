@@ -51,7 +51,7 @@
           v-model="registerForm.confPassword"
           placeholder="确认密码"
           name="password"
-          tabindex="1"
+          tabindex="3"
           auto-complete="on"
         />
         <span class="show-pwd" @click="showPwd">
@@ -68,7 +68,7 @@
           placeholder="请输入姓名"
           name="username"
           type="text"
-          tabindex="1"
+          tabindex="4"
           auto-complete="on"
         />
       </el-form-item>
@@ -82,7 +82,7 @@
           placeholder="请输入工号"
           name="username"
           type="text"
-          tabindex="1"
+          tabindex="5"
           auto-complete="on"
         />
       </el-form-item>
@@ -95,6 +95,9 @@
 </template>
 <script>
 import { validUsername, validPassword, validSno } from '@/utils/validate'
+import Vue from 'vue'
+import axios from 'axios'
+Vue.prototype.axios = axios
 export default {
   name: 'Index',
   data() {
@@ -173,16 +176,18 @@ export default {
       this.loading = true
       const registerData = JSON.parse(JSON.stringify(this.registerForm))
       delete registerData.confPassword
+      console.log(registerData.role)
       this.$store.dispatch('user/register', registerData).then((data) => {
-        if (data.msg === '注册成功') {
+        console.log(data)
+        if (data.data.message === '注册成功') {
           this.$message({
-            message: data.msg + '，请重新登入',
+            message: data.data.message + '，请重新登入',
             type: 'success'
           })
           this.$router.push({ path: this.redirect || '/login' })
           this.loading = false
         } else {
-          this.$message.error(data.msg + '，请更换手机号' || 'Has Error')
+          this.$message.error(data.data.message + '，请更换手机号' || 'Has Error')
         }
         this.loading = false
       }).catch(() => {

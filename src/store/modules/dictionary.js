@@ -1,4 +1,5 @@
 import { login, logout, getInfo, register } from '@/api/user'
+import {get} from '@/api/dictionary'
 import { getToken, setToken, removeToken, setCode, getCode} from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -45,24 +46,15 @@ const actions = {
     })
   },
   register({ commit }, userInfo) {
-    // const name = userInfo.name.trim()
-    // const role = userInfo.role.trim()
-    // const sno = userInfo.sno.trim()
-    // const username = userInfo.username.trim()
-    // const password = userInfo.password.trim()
-    // const { name, role, sno, username, password } = userInfo
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-undef
       console.log('modules userinfo' + userInfo.password)
       register(userInfo).then(response => {
         const { data } = response
         console.log('modules userjs register' + data)
-        // commit('SET_TOKEN', data.data.token)
-        // setToken(data.data.token)
         setCode('modules userjs register code' + data.code)
         resolve(response)
       }).catch(error => {
-        // console.log('modules userjs register ' + getCode())
         console.log('modules userjs register catch')
         reject(error)
       })
