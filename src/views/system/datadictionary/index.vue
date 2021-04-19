@@ -346,8 +346,8 @@ export default {
     async getDataDictionaryList() {
       var arr = this
       // console.log(this.queryInfo)
-      await this.axios.get('/dict/getDict?limit=' + this.queryInfo
-        .pageSize + '&page=' + this.queryInfo.page)
+      await this.axios.get('/dict/' + this.queryInfo
+        .pageSize + '/' + this.queryInfo.page)
         // {
         // params: {
         //   limit: this.queryInfo.pageSize,
@@ -388,7 +388,7 @@ export default {
       var arr = this
       this.nowDictCode = data.dictCode
 
-      await this.axios.get('/dictionaryDetail/getDictDetail?dictCode=' + data.dictCode)
+      await this.axios.get('/dictionaryDetail/' + data.dictCode)
         .then(res => {
           if (res.data.code !== 200) {
             return this.$message.error('获取字典详情失败')
@@ -433,9 +433,9 @@ export default {
         //   this.editDDForm
         // )
         // console.log(this.editDDForm.dictId)
-        await this.axios.post('/dict/updateDict?dictId=' + this.editDDForm.dictId +
-          '&dictCode=' + this.editDDForm.newDictCode + '&dictName=' +
-          this.editDDForm.newDictName + '&description=' + this.editDDForm.newDescription)
+        await this.axios.put('/dict/' + this.editDDForm.dictId +
+          '/' + this.editDDForm.newDictCode + '/' +
+          this.editDDForm.newDictName + '/' + this.editDDForm.newDescription)
           .then(res => {
             if (res.data.code !== 200) {
               this.$message.error('更新数据字典失败！')
@@ -449,8 +449,8 @@ export default {
     },
     async editDetail() {
       // console.log(this.detailForm.detailId)
-      await this.axios.post('/dictionaryDetail/updateDictDetail?detailId=' + this.detailForm.detailId +
-        '&name=' + this.detailForm.newName)
+      await this.axios.put('/dictionaryDetail/' + this.detailForm.detailId +
+        '/' + this.detailForm.newName)
         .then(res => {
           if (res.data.code !== 200) {
             this.$message.error('更新字典值失败！')
@@ -481,7 +481,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/dict/deleteDict?dictCode=' + dataForm.dictCode).then(res => {
+      await this.axios.delete('/dict/' + dataForm.dictId).then(res => {
         // console.log(res)
         if (res.data.code !== 200) return this.$message.error('删除数据字典失败！')
         this.$message.success('删除数据字典成功！')
@@ -507,7 +507,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/dictionaryDetail/deleteDictDetail?detailId=' + dataForm.detailId).then(res => {
+      await this.axios.delete('/dictionaryDetail/' + dataForm.detailId).then(res => {
         // console.log(res)
         if (res.data.code !== 200) return this.$message.error('删除数据字典失败！')
         this.$message.success('删除数据字典成功！')

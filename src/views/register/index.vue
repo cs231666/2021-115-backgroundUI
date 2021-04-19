@@ -1,12 +1,15 @@
 <template>
   <div class="register-container">
     <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="register-form" auto-complete="on" label-position="left">
+
       <div class="title-container">
+        <el-button :loading="loading" type="text" style="float:left;font-weight:bold;color: white" @click.native.prevent="handlelogin">
+          <返回登录</el-button>
         <h3 class="title" style="color: white">注册</h3>
       </div>
-      <el-tabs stretch v-model="registerForm.role">
-        <el-tab-pane label="教师账号" name="teacher"></el-tab-pane>
-        <el-tab-pane label="管理员账号" name="admin"></el-tab-pane>
+      <el-tabs v-model="registerForm.role" stretch>
+        <el-tab-pane label="教师账号" name="teacher" />
+        <el-tab-pane label="管理员账号" name="admin" />
       </el-tabs>
       <el-form-item prop="username">
         <span class="svg-container">
@@ -22,15 +25,36 @@
           auto-complete="on"
         />
       </el-form-item>
+      <el-form-item prop="verifyCode" style="margin-bottom:18px;">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+
+        <el-input
+          ref="verifyCode"
+          v-model="registerForm.verifyCode"
+          placeholder="验证码"
+          name="verifyCode"
+          tabindex="2"
+          auto-complete="on"
+          @keyup.enter.native="handleLogin"
+        />
+        <span class="svg-container">
+          <!--                <el-button>获取验证码</el-button>-->
+        </span>
+        <span v-show="sendAuthCode" class="auth_text auth_text_blue" @click="getAuthCode">获取验证码</span>
+        <span v-show="!sendAuthCode" class="auth_text"> <span class="auth_text_blue">{{ auth_time }} </span>
+          秒重发</span>
+      </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
-          :type="passwordType"
           ref="password"
           v-model="registerForm.password"
+          :type="passwordType"
           placeholder="请输入密码"
           name="password"
           tabindex="2"
@@ -46,9 +70,9 @@
         </span>
         <el-input
           :key="passwordType"
-          :type="passwordType"
           ref="password"
           v-model="registerForm.confPassword"
+          :type="passwordType"
           placeholder="确认密码"
           name="password"
           tabindex="3"
@@ -86,9 +110,9 @@
           auto-complete="on"
         />
       </el-form-item>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleSend">确认</el-button>
-      <el-button :loading="loading" type="text" style="width:100%;margin-bottom:5px;margin-left: 0px;color: white" @click.native.prevent="handleCancel">重置</el-button>
-      <el-button :loading="loading" type="text" style="float:right;font-weight:bold;color: white" @click.native.prevent="handlelogin">返回登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:45%;margin-bottom:20px;" @click.native.prevent="handleCancel">重置</el-button>
+      <el-button :loading="loading" type="primary" style="width:45%;margin-bottom:20px;margin-left:40px;" @click.native.prevent="handleSend">确认</el-button>
+      <!--      <el-button :loading="loading" type="text" style="float:left;font-weight:bold;color: white" @click.native.prevent="handleCancel">重置</el-button>-->
 
     </el-form>
   </div>
@@ -137,9 +161,17 @@ export default {
       }
     }
     return {
+      registerrole: 0,
+      sendAuthCode: true,
+      /* 布尔值，通过v-show控制显示‘获取按钮’还是‘倒计时’ */
+      auth_time: 0,
+      /* 倒计时 计数器*/
+      activeName: 'first',
+      verifyCode: '',
       registerForm: {
         role: 'teacher',
         username: '',
+        verifyCode: '',
         name: '',
         sno: '',
         password: '',
@@ -157,10 +189,46 @@ export default {
       passwordType: 'password'
     }
   },
+  computed: {
+    // 用于校验手机号码格式是否正确
+    phoneNumberStyle() {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.registerForm.username)) {
+        return false
+      }
+      return true
+    }
+  },
 
   methods: {
     next() {
       if (this.active++ > 2) this.active = 0
+    },
+    getAuthCode() {
+      if (this.phoneNumberStyle) {
+        console.log('发送验证码' + this.registerForm.username)
+        this.axios.post('/Sms/' + this.registerForm.username)
+          .then(res => {
+            console.log(res)
+            if (res.data.code !== 200) {
+              this.$message.error('获取验证码失败！')
+            }
+            this.$message.success('获取验证码成功！')
+            this.verifyCode = res.data.verifyCode
+          })
+        this.sendAuthCode = false
+        // 设置倒计时秒
+        this.auth_time = 30
+        var auth_timetimer = setInterval(() => {
+          this.auth_time--
+          if (this.auth_time <= 0) {
+            this.sendAuthCode = true
+            clearInterval(auth_timetimer)
+          }
+        }, 1000)
+      } else {
+        this.$message.error('请输入手机号！')
+      }
     },
     showPwd() {
       if (this.passwordType === 'password') {
@@ -173,26 +241,34 @@ export default {
       })
     },
     handleSend() {
+      if (this.registerForm.role === 'teacher'){
+        this.registerrole = 1
+      } else {
+        this.registerrole = 2
+      }
       this.loading = true
       const registerData = JSON.parse(JSON.stringify(this.registerForm))
       delete registerData.confPassword
       console.log(registerData.role)
-      this.$store.dispatch('user/register', registerData).then((data) => {
-        console.log(data)
-        if (data.data.message === '注册成功') {
-          this.$message({
-            message: data.data.message + '，请重新登入',
-            type: 'success'
-          })
-          this.$router.push({ path: this.redirect || '/login' })
+      this.axios.post('/user/' + this.registerrole + '/' + this.registerForm.username +
+        '/' + this.registerForm.password + '/' + this.registerForm.verifyCode)
+      // this.$store.dispatch('user/register', registerData)
+        .then((data) => {
+          console.log(data)
+          if (data.data.msg === '注册成功') {
+            this.$message({
+              message: data.data.msg + '，请重新登入',
+              type: 'success'
+            })
+            this.$router.push({ path: this.redirect || '/login' })
+            this.loading = false
+          } else {
+            this.$message.error(data.data.msg + '，请更换手机号' || 'Has Error')
+          }
           this.loading = false
-        } else {
-          this.$message.error(data.data.message + '，请更换手机号' || 'Has Error')
-        }
-        this.loading = false
-      }).catch(() => {
-        this.loading = false
-      })
+        }).catch(() => {
+          this.loading = false
+        })
     },
     handleCancel() {
       this.registerForm.role = 'teacher'
@@ -228,7 +304,7 @@ $cursor: #fff;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 65%;
 
     input {
       background: transparent;
@@ -308,7 +384,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $dark_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 5px auto;
       text-align: center;
       font-weight: bold;
     }

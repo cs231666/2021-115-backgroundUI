@@ -150,7 +150,7 @@ export default {
     getSysParamList() {
       // console.log()
       var arr = this
-      this.axios.get('/sysparam/getSysParam')
+      this.axios.get('/sysparam')
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {
@@ -171,8 +171,8 @@ export default {
 
     },
     addSysParam() {
-      this.axios.post('/sysparam/addSysParam?paramName=' + this.addSysParamForm.sysParamName +
-        '&paramValue=' + this.addSysParamForm.sysParamValue)
+      this.axios.post('/sysparam/' + this.addSysParamForm.sysParamName +
+        '/' + this.addSysParamForm.sysParamValue)
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {
@@ -184,8 +184,8 @@ export default {
         })
     },
     editSysParam() {
-      this.axios.post('/sysparam/updateSysParam?paramId=' + this.nowParamId + '&paramName=' + this.editSysParamForm.sysParamName +
-        '&paramValue=' + this.editSysParamForm.newSysParamValue)
+      this.axios.put('/sysparam/' + this.nowParamId + '/' + this.editSysParamForm.sysParamName +
+        '/' + this.editSysParamForm.newSysParamValue)
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {
@@ -213,7 +213,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/sysparam/deleteSysParam?paramId=' + dataForm.paramId).then(res => {
+      await this.axios.delete('/sysparam/' + dataForm.paramId).then(res => {
         // console.log(res)
         if (res.data.code !== 200) return this.$message.error('删除系统参数失败！')
         this.$message.success('删除系统参数成功！')
