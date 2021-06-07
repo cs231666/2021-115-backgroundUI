@@ -13,6 +13,17 @@ const store = new Vuex.Store({
     settings,
     user
   },
+  state: {
+    // 存储token
+    Authorization: window.localStorage.getItem('Authorization') ? window.localStorage.getItem('Authorization') : ''
+  },
+  mutations: {
+    // 修改token，并存入localstorage
+    loginChange(state, user) {
+      state.Authorization = user.Authorization
+      window.localStorage.setItem('Authorization', state.Authorization)
+    }
+  },
   getters
 })
 

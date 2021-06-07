@@ -36,13 +36,31 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/forgetPsw',
+    component: () => import('@/views/forgetpsw/index'),
+    hidden: true
+  },
+  {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
+  {
+    path: '/403',
+    component: () => import('@/views/exception/403'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
   },
-
+  {
+    path: '/500',
+    component: () => import('@/views/exception/500'),
+    hidden: true
+  },
   {
     path: '/',
     component: Layout,
@@ -57,7 +75,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/userinfo',
     name: 'Example',
     meta: { title: '个人中心', icon: 'el-icon-user-solid' },
     children: [
@@ -66,7 +84,7 @@ export const constantRoutes = [
         name: 'Table',
         component: () => import('@/user/userinf/userinf'),
         meta: { title: '个人信息' }
-      },
+      }
       // {
       //   path: 'tree',
       //   name: 'Tree',
@@ -76,23 +94,23 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/example',
+    path: '/class',
     component: Layout,
-    redirect: '/example/table1',
+    redirect: '/class',
     name: 'Example',
-    meta: { title: '内容管理', icon: 'form' },
+    meta: { title: '班课', icon: 'form' },
     children: [
       {
-        path: 'table',
+        path: 'query',
         name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: '班课管理', icon: 'table' }
+        component: () => import('@/views/class/index'),
+        meta: { title: '班课查询', icon: 'table' }
       },
       {
-        path: 'tree',
+        path: 'create',
         name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        component: () => import('@/views/class/create'),
+        meta: { title: '创建班课', icon: 'tree' }
       }
     ]
   },
@@ -201,7 +219,7 @@ export const constantRoutes = [
       {
         path: 'tree3',
         name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/system/menumanagement/index'),
         meta: { title: '菜单管理' }
       },
       {
@@ -213,8 +231,14 @@ export const constantRoutes = [
       {
         path: 'tree5',
         name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        component: () => import('@/views/system/datadictionary/index'),
         meta: { title: '数据字典' }
+      },
+      {
+        path: 'tree6',
+        name: 'Tree',
+        component: () => import('@/views/system/systemparameter/index'),
+        meta: { title: '系统参数' }
       }
     ]
   },
@@ -236,5 +260,21 @@ export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
-
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login' || to.path === '/forgetPsw' || to.path === '/register') {
+//     console.log('router.js 登录/忘记密码/注册')
+//     next()
+//   } else {
+//     const token = localStorage.getItem('Authorization')
+//     console.log(token)
+//     if (token === 'null' || token === '') { // token === 'null' || token === ''
+//       console.log('路由拦截，请先登录')
+//       alert('请先登录')
+//       next('/login')
+//     } else {
+//       console.log(token)
+//       next()
+//     }
+//   }
+// })
 export default router
