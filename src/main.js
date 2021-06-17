@@ -35,7 +35,7 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 // axios.defaults.baseURL = 'http://172.17.171.10:8080'
-axios.defaults.baseURL = 'http://119.23.210.155:8080'
+axios.defaults.baseURL = 'http://106.15.176.97:8080'
 // 添加请求拦截器，在请求头中加token
 axios.interceptors.request.use(
   config => {

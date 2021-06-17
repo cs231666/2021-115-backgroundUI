@@ -250,8 +250,13 @@ export default {
       const registerData = JSON.parse(JSON.stringify(this.registerForm))
       delete registerData.confPassword
       console.log(registerData.role)
-      this.axios.post('/user/' + this.registerrole + '/' + this.registerForm.username +
-        '/' + this.registerForm.password + '/' + this.registerForm.verifyCode)
+      this.axios.post('/registerByPsw/' ,
+        {
+          'code':this.registerForm.verifyCode,
+          'password':this.registerForm.password,
+          'role':this.registerrole,
+          'username':this.registerForm.username
+        })
       // this.$store.dispatch('user/register', registerData)
         .then((data) => {
           console.log(data)

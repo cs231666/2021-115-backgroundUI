@@ -45,6 +45,10 @@
 
 <script>
 import { getList } from '@/api/table'
+import Vue from 'vue'
+import axios from 'axios'
+Vue.prototype.axios = axios
+import { getToken, getCode, setToken, setCode, setUser, getUser } from '@/utils/auth'
 
 export default {
   filters: {
@@ -65,6 +69,7 @@ export default {
   },
   created() {
     this.fetchData()
+    this.getUserInfo()
   },
   methods: {
     fetchData() {
@@ -73,6 +78,22 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
+    },
+    getUserInfo() {
+      console.log('getuserinfo')
+      var arr = this
+      this.axios.get('/user/info', { headers:{
+        'Authorization': getToken()
+      }
+      })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code !== 200) {
+            return this.$message.error('获取系统参数列表失败')
+          }
+          this.$message.success('获取系统参数列表成功')
+          arr.sysParamList = res.data.obj
+        })
     }
   }
 }

@@ -141,7 +141,7 @@ import axios from 'axios'
 import { mapMutations } from 'vuex'
 import { validUsername, validPassword, validSno } from '@/utils/validate'
 Vue.prototype.axios = axios
-import { getToken, getCode, setToken, setCode } from '@/utils/auth'
+import { getToken, getCode, setToken, setCode, setUser, getUser, setUserId, getUserId, setUserRole, getUserRole } from '@/utils/auth'
 
 export default {
   name: 'Login',
@@ -186,7 +186,7 @@ export default {
       },
       fullWidth: document.documentElement.clientWidth,
       loginForm: {
-        username: 'admin',
+        username: '15750735837',
         password: '123456'
       },
       loginByVerifyCodeForm: {
@@ -233,7 +233,7 @@ export default {
     getAuthCode() {
       if (this.phoneNumberStyle) {
         console.log('发送验证码' + this.loginByVerifyCodeForm.phone)
-        this.axios.get('/verifyCode/' + this.loginByVerifyCodeForm.phone)
+        this.axios.get('/sms/' + this.loginByVerifyCodeForm.phone)
           .then(res => {
             console.log(res)
             if (res.data.code !== 200) {
@@ -319,32 +319,65 @@ export default {
       // eslint-disable-next-line no-undef
       // const { data: res } = awaitthis.axios.get('/user/userLogin?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
       // console.log('123' + res)
-      this.axios.get('/user/' + this.loginForm.username + '/' + this.loginForm.password)
+      this.axios.post('/login/',
+        {
+          'code': '',
+          'password': this.loginForm.password,
+          'username': this.loginForm.username
+        })
+
       // this.$store.dispatch('user/login', this.loginForm)
         .then(successResponse => {
           // 获取后端返回数据
           // console.log('123456')
           console.log(successResponse)
-          setToken(successResponse.data.data.token)
-          setCode(successResponse.data.code)
-          console.log(getToken())
-          console.log(getCode())
+          // setUserId(this.loginForm.userid)
+          setUser(this.loginForm.username)
+          setToken(successResponse.data.obj.token)
+          this.getUserInfo()
+          // setUserRole(successResponse.data.obj.role)
+          // setCode(successResponse.data.code)
+          // console.log(getToken())
+          // console.log(getCode())
           // console.log(successResponse)
           // const state = successResponse.data.code
           // 打印token
           // 判断是否登录成功
-          if (getCode() === '200') {
-            this.$router.push('/')
-            // 加入到全局变量中
-            this.loginChange({
-              userName: this.loginForm.userName,
-              Authorization: getToken(),
-              signTime: new Date().getTime()
-            })
+          if (successResponse.data.code === 200) {
             this.$router.push('/dashborad')
+            // 加入到全局变量中
+            // this.loginChange({
+            //   userName: this.loginForm.userName,
+            //   Authorization: getToken(),
+            //   signTime: new Date().getTime()
+            // })
+            // this.$router.push('/dashborad')
           } else {
             this.$message('用户名或密码错误')
           }
+        })
+    },
+    getUserInfo() {
+      console.log('getuserinfo')
+      var arr = this
+      this.axios.get('/user/info', { headers: {
+        'Authorization': getToken()
+      }
+      })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code !== 200) {
+            //return this.$message.error('获取个人信息失败')
+            return 0
+          }
+          //this.$message.success('获取个人信息成功')
+          if (res.data.obj.role === 2) {
+            setUserRole('admin')
+          } else if (res.data.obj.role === 1) {
+            setUserRole('teacher')
+          }
+          // console.log(getUserRole())
+          arr.dataForm = res.data.obj
         })
     },
     handleLoginByVerifyCode() {
@@ -352,21 +385,26 @@ export default {
       // const { data: res } = awaitthis.axios.get('/user/userLogin?username=' + this.loginForm.username + '&password=' + this.loginForm.password)
       // console.log('123' + res)
       console.log(this.loginByVerifyCodeForm.verifyCode)
-      this.axios.get('/user/userLogin/' + this.loginByVerifyCodeForm.phone + '/' + this.loginByVerifyCodeForm.verifyCode)
+      this.axios.post('/loginbycode/',
+        {
+          'code': this.loginByVerifyCodeForm.verifyCode,
+          'password': '',
+          'username': this.loginByVerifyCodeForm.phone
+        })
         // this.$store.dispatch('user/login', this.loginForm)
         .then(successResponse => {
           // 获取后端返回数据
           // console.log('123456')
-          console.log(successResponse)
-          setToken(successResponse.data.data.token)
-          setCode(successResponse.data.code)
-          console.log(getToken())
-          console.log(getCode())
+          // console.log(successResponse)
+          // setToken(successResponse.data.data.token)
+          // setCode(successResponse.data.code)
+          // console.log(getToken())
+          // console.log(getCode())
           // console.log(successResponse)
           // const state = successResponse.data.code
           // 打印token
           // 判断是否登录成功
-          if (getCode() === '200') {
+          if (successResponse.data.code === 200) {
             this.$router.push('/')
             // 加入到全局变量中
             this.loginChange({

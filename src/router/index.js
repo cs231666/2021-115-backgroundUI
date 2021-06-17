@@ -5,7 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-
+import { getToken, getCode, setToken, setCode, setUser, getUser, setUserId, getUserId, setUserRole, getUserRole } from '@/utils/auth'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -53,7 +53,7 @@ export const constantRoutes = [
   },
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/exception/404'),
     hidden: true
   },
   {
@@ -69,7 +69,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home' }
+      meta: { title: '首页', icon: 'el-icon-s-home', requireAuth: true,roles: ['teacher','admin'] }
     }]
   },
   {
@@ -77,13 +77,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/userinfo',
     name: 'Example',
-    meta: { title: '个人中心', icon: 'el-icon-user-solid' },
+    meta: { title: '个人中心', icon: 'el-icon-user-solid',requireAuth: true, roles: ['teacher','admin' ] },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/user/userinf/userinf'),
-        meta: { title: '个人信息' }
+        meta: { title: '个人信息', requireAuth: true,roles: ['teacher','admin' ] }
       }
       // {
       //   path: 'tree',
@@ -98,151 +98,68 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/class',
     name: 'Example',
-    meta: { title: '班课', icon: 'form' },
+    meta: { title: '班课', icon: 'form',requireAuth: true, roles: ['teacher', 'admin'] },
     children: [
       {
         path: 'query',
         name: 'Table',
         component: () => import('@/views/class/index'),
-        meta: { title: '班课查询', icon: 'table' }
-      },
-      {
-        path: 'create',
-        name: 'Tree',
-        component: () => import('@/views/class/create'),
-        meta: { title: '创建班课', icon: 'tree' }
+        meta: { title: '班课管理', icon: 'table',requireAuth: true, roles: ['teacher', 'admin'] }
       }
+      // ,
+      // {
+      //   path: 'create',
+      //   name: 'Tree',
+      //   component: () => import('@/views/class/create'),
+      //   meta: { title: '创建班课', icon: 'tree' }
+      // }
     ]
   },
-
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-  //       meta: { title: 'External Link', icon: 'link' }
-  //     }
-  //   ]
-  // },
   {
     path: '/1',
     component: Layout,
     redirect: '/dashboard2',
     name: 'Example',
-    meta: { title: '系统', icon: 'el-icon-s-tools' },
+    meta: { title: '系统管理', icon: 'el-icon-s-tools', requireAuth: true,roles: ['admin'] },
     children: [
       {
         path: 'table1',
         name: 'Table',
         component: () => import('@/views/system/usermanagement/usermanagement'),
-        meta: { title: '用户管理' }
+        meta: { title: '用户管理', requireAuth: true,roles: ['admin'] }
       },
       {
         path: 'tree2',
         name: 'Tree',
         component: () => import('@/views/system/rolemanagement/rolemanagement'),
-        meta: { title: '角色管理' }
+        meta: { title: '角色管理', requireAuth: true,roles: ['admin'] }
       },
       {
         path: 'tree3',
         name: 'Tree',
         component: () => import('@/views/system/menumanagement/index'),
-        meta: { title: '菜单管理' }
+        meta: { title: '菜单管理',requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree4',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: '权限管理' }
+        meta: { title: '权限管理', requireAuth: true,roles: ['admin'] }
       },
       {
         path: 'tree5',
         name: 'Tree',
         component: () => import('@/views/system/datadictionary/index'),
-        meta: { title: '数据字典' }
+        meta: { title: '数据字典',requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree6',
         name: 'Tree',
         component: () => import('@/views/system/systemparameter/index'),
-        meta: { title: '系统参数' }
+        meta: { title: '系统参数',requireAuth: true, roles: ['admin'] }
       }
     ]
   },
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
@@ -277,4 +194,44 @@ export function resetRouter() {
 //     }
 //   }
 // })
+router.beforeEach((to, from, next) => {
+  console.log('上一个页面：', from)
+  console.log('下一个页面：', to)
+  let userToken = getToken()
+  if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+    console.log('main-token：', userToken)
+    if (userToken) { // 判断本地是否存在token
+      if (to.meta.roles.length !== 0) {
+        for (let i = 0; i < to.meta.roles.length; i++) {
+          if (getUserRole() === to.meta.roles[i]) {
+            next()
+            break
+          } else if (i === to.meta.roles.length - 1) {
+            next({
+              path: '/403'
+            })
+          }
+        }
+      } else {
+        next()
+      }
+    } else {
+      next({
+        path: '/Login'
+      })
+    }
+  } else {
+    next()
+  }
+  /* 如果本地存在token,则不允许直接跳转到登录页面 */
+  if (to.fullPath === '/Login') {
+    if (userToken) {
+      next({
+        path: from.fullPath
+      })
+    } else {
+      next()
+    }
+  }
+})
 export default router

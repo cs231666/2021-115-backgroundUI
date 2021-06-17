@@ -10,7 +10,7 @@
 
     <!-- 搜索框 -->
     <el-row class="searchRow" :gutter="20">
-      <el-col :span="10" :xs="24" :sm="24" :md="10" :lg="11" :xl="11" style="margin-bottom: 10px">
+      <el-col :span="24" :xs="24" :sm="24" :md="10" :lg="12" :xl="12" style="margin-bottom: 10px">
         <el-card class="box-card">
           <el-row>
             <el-col :span="12">
@@ -39,8 +39,8 @@
 
           <el-table :data="dataDictionaryList" stripe @row-click="getDictDetail">
             <!--            <el-table-column label="#" type="index" fixed />-->
-            <el-table-column label="标识" prop="dictCode" />
             <el-table-column label="名称" prop="dictName" />
+            <el-table-column label="关键字" prop="dictCode" />
             <el-table-column label="描述" prop="description" />
             <el-table-column label="操作" width="150" fixed="right">
               <template slot-scope="scope">
@@ -74,7 +74,7 @@
           />
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="14" :lg="13" :xl="13">
+      <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <el-row>
@@ -97,7 +97,14 @@
               <el-table-column label="字典值" prop="name" />
               <el-table-column label="code" prop="code" />
               <el-table-column label="排序" type="index" fixed />
+              <el-table-column label="升/降序"  fixed="right">
+                <template slot-scope="scope">
+                  <el-button size="mini" type='text'    @click.stop="sortUp(scope.$index, scope.row)">↑ </el-button>
+                  <el-button size="mini" type='text'    @click.stop="sortDown(scope.$index, scope.row)">↓</el-button>
+                  <!-- 编辑数据字典按钮 -->
 
+                </template>
+              </el-table-column>
               <el-table-column label="操作" width="150" fixed="right">
                 <template slot-scope="scope">
                   <!-- 编辑数据字典按钮 -->
@@ -147,11 +154,11 @@
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="editDDForm" :rules="editFormRules" label-width="80px">
-        <el-form-item label="原标识">
-          <el-input v-model="editDDForm.dictCode" disabled />
-        </el-form-item>
         <el-form-item label="原名称">
           <el-input v-model="editDDForm.dictName" disabled />
+        </el-form-item>
+        <el-form-item label="原关键字">
+          <el-input v-model="editDDForm.dictCode" disabled />
         </el-form-item>
         <el-form-item label="原描述">
           <el-input v-model="editDDForm.description" disabled />
@@ -159,11 +166,11 @@
         <!--        <el-form-item label="排序">-->
         <!--          <el-input v-model="editDDForm.dataOrder" />-->
         <!--        </el-form-item>-->
-        <el-form-item label="新标识" prop="newDictCode">
-          <el-input v-model="editDDForm.newDictCode" />
-        </el-form-item>
         <el-form-item label="新名称" prop="newDictName">
           <el-input v-model="editDDForm.newDictName" />
+        </el-form-item>
+        <el-form-item label="新关键字" prop="newDictCode">
+          <el-input v-model="editDDForm.newDictCode" />
         </el-form-item>
         <el-form-item label="新描述" prop="newDescription">
           <el-input v-model="editDDForm.newDescription" />
@@ -207,11 +214,11 @@
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="addDictForm" :rules="addDictFormRules" label-width="80px">
-        <el-form-item label="标识" prop="dictCode">
-          <el-input v-model="addDictForm.dictCode" />
-        </el-form-item>
         <el-form-item label="名称" prop="dictName">
           <el-input v-model="addDictForm.dictName" />
+        </el-form-item>
+        <el-form-item label="关键字" prop="dictCode">
+          <el-input v-model="addDictForm.dictCode" />
         </el-form-item>
         <el-form-item label="描述" prop="description">
           <el-input v-model="addDictForm.description" />
@@ -229,7 +236,8 @@
       width="50%"
       @close="editDialogClosed"
     >
-      <el-form ref="editDDFormRef" :model="addDetailForm" :rules="addDetailFormRules" label-width="80px">
+      <el-form ref="editDDFormRef" :model="addDetailForm" :rules="addDetailFormRules" label-width="80px"
+      >
         <el-form-item label="所属字典">
           <el-input v-model="addDetailForm.dictCode" disabled />
         </el-form-item>
@@ -248,6 +256,7 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
+import Sortable from 'sortablejs'
 Vue.prototype.axios = axios
 export default {
   data() {
@@ -304,12 +313,12 @@ export default {
       // 添加表单的验证规则对象
       editFormRules: {
         newDictCode: [
-          { required: true, message: '请输入新标识', trigger: 'blur' },
-          { min: 2, max: 15, message: '用户名长度在2-15之间', trigger: 'blur' }
+          { required: true, message: '请输入新关键字', trigger: 'blur' },
+          { min: 2, max: 15, message: '关键字长度在2-15之间', trigger: 'blur' }
         ],
         newDictName: [
           { required: true, message: '请输入新名称', trigger: 'blur' },
-          { min: 1, max: 15, message: '长度在1-15之间', trigger: 'blur' }
+          { min: 1, max: 15, message: '名称长度在1-15之间', trigger: 'blur' }
         ]
       },
       editDetailFormRules: {
@@ -320,12 +329,16 @@ export default {
       },
       addDictFormRules: {
         dictCode: [
-          { required: true, message: '请输入标识', trigger: 'blur' },
-          { min: 2, max: 15, message: '标识长度在2-15之间', trigger: 'blur' }
+          { required: true, message: '请输入关键字', trigger: 'blur' },
+          { min: 2, max: 15, message: '关键字长度在2-15之间', trigger: 'blur' }
         ],
         dictName: [
           { required: true, message: '请输入名称', trigger: 'blur' },
           { min: 1, max: 15, message: '名称长度在1-15之间', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '请输入描述', trigger: 'blur' },
+          { min: 1, max: 15, message: '描述长度在1-15之间', trigger: 'blur' }
         ]
       },
       addDetailFormRules: {
@@ -340,14 +353,43 @@ export default {
     this.getDataDictionaryList()
   },
   methods: {
+    sortUp (index, row) {
+      this.axios.put('/dictionary-detail/up/' + row.detailId)
+      // console.log(row)
+      if (index === 0) {
+        this.$message({
+          message: '已经是列表中第一个素材！',
+          type: 'warning'
+        })
+      } else {
+        let temp = this.dictDetailList[index - 1]
+        this.$set(this.dictDetailList, index - 1, this.dictDetailList[index])
+        this.$set(this.dictDetailList, index, temp)
+      }
+
+    },
+    sortDown (index, row) {
+      this.axios.put('/dictionary-detail/down/' + row.detailId)
+      if (index === (this.dictDetailList.length - 1)) {
+        this.$message({
+          message: '已经是列表中最后一个素材！',
+          type: 'warning'
+        })
+      } else {
+        let i = this.dictDetailList[index + 1]
+        this.$set(this.dictDetailList, index + 1, this.dictDetailList[index])
+        this.$set(this.dictDetailList, index, i)
+      }
+
+    },
     addDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
     async getDataDictionaryList() {
       var arr = this
       // console.log(this.queryInfo)
-      await this.axios.get('/dict/' + this.queryInfo
-        .pageSize + '/' + this.queryInfo.page)
+      await this.axios.get('/dictionary/' + this.queryInfo
+        .pageSize + '/' + this.queryInfo.page + '/1')
         // {
         // params: {
         //   limit: this.queryInfo.pageSize,
@@ -387,8 +429,8 @@ export default {
     async getDictDetail(data) {
       var arr = this
       this.nowDictCode = data.dictCode
-
-      await this.axios.get('/dictionaryDetail/' + data.dictCode)
+      console.log(data.dictCode)
+      await this.axios.get('/dictionary-detail/' + data.dictCode +'/1/10/1')
         .then(res => {
           if (res.data.code !== 200) {
             return this.$message.error('获取字典详情失败')
@@ -433,7 +475,7 @@ export default {
         //   this.editDDForm
         // )
         // console.log(this.editDDForm.dictId)
-        await this.axios.put('/dict/' + this.editDDForm.dictId +
+        await this.axios.put('/dictionary/' + this.editDDForm.dictId +
           '/' + this.editDDForm.newDictCode + '/' +
           this.editDDForm.newDictName + '/' + this.editDDForm.newDescription)
           .then(res => {
@@ -449,7 +491,7 @@ export default {
     },
     async editDetail() {
       // console.log(this.detailForm.detailId)
-      await this.axios.put('/dictionaryDetail/' + this.detailForm.detailId +
+      await this.axios.put('/dictionary-detail/' + this.detailForm.detailId +
         '/' + this.detailForm.newName)
         .then(res => {
           if (res.data.code !== 200) {
@@ -481,7 +523,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/dict/' + dataForm.dictId).then(res => {
+      await this.axios.delete('/dictionary/' + dataForm.dictId).then(res => {
         // console.log(res)
         if (res.data.code !== 200) return this.$message.error('删除数据字典失败！')
         this.$message.success('删除数据字典成功！')
@@ -493,7 +535,7 @@ export default {
     async removeDetail(dataForm) {
       // console.log('removeDetail' + dataForm.detailId)
       const confirmResult = await this.$confirm(
-        '此操作将永久删除该用户, 是否继续?',
+        '此操作将永久删除字典值, 是否继续?',
         '提示',
         {
           confirmButtonText: '确定',
@@ -507,7 +549,7 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/dictionaryDetail/' + dataForm.detailId).then(res => {
+      await this.axios.delete('/dictionary-detail/' + dataForm.detailId).then(res => {
         // console.log(res)
         if (res.data.code !== 200) return this.$message.error('删除数据字典失败！')
         this.$message.success('删除数据字典成功！')
@@ -519,26 +561,28 @@ export default {
     },
     addDict() {
       // console.log(this.addDictForm)
-      this.axios.post('/dict/addDict?dictCode=' + this.addDictForm.dictCode + '&dictName=' +
-        this.addDictForm.dictName + '&description=' + this.addDictForm.description)
+      this.axios.post('/dictionary/' + this.addDictForm.dictCode + '/' +
+        this.addDictForm.dictName + '/' + this.addDictForm.description)
         .then(res => {
           if (res.data.code !== 200) return this.$message.error('新增数据字典失败！')
           this.$message.success('新增数据字典成功！')
           this.addDictVisible = false
           // this.dictDetailList = ''
           // this.getDictDetail()
+          this.getDataDictionaryList()
         })
     },
     addDetail() {
       // console.log(this.addDetailForm)
-      this.axios.post('/dictionaryDetail/addDictDetail?dictCode=' + this.addDetailForm.dictCode + '&code=' +
-        this.addDetailForm.code + '&name=' + this.addDetailForm.name)
+      this.axios.post('/dictionary-detail/' + this.addDetailForm.dictCode + '/' +
+        this.addDetailForm.code + '/' + this.addDetailForm.name)
         .then(res => {
           if (res.data.code !== 200) return this.$message.error('新增字典值失败！')
           this.$message.success('新增字典值成功！')
           this.addDetailVisible = false
           // this.dictDetailList = ''
           // this.getDictDetail()
+          this.getDataDictionaryList()
         })
     },
     showAddDetailDialog() {
@@ -546,6 +590,30 @@ export default {
       this.addDetailVisible = true,
       this.addDetailForm.dictCode = this.nowDictCode
       this.addDetailForm.code = this.nowCode
+    },
+    //行拖拽
+    rowDrop() {
+      const tbody = document.querySelector('.el-table__body-wrapper tbody')
+      const _this = this
+      Sortable.create(tbody, {
+        onEnd({ newIndex, oldIndex }) {
+          const currRow = _this.tableData.splice(oldIndex, 1)[0]
+          _this.tableData.splice(newIndex, 0, currRow)
+        }
+      })
+    },
+    //列拖拽
+    columnDrop() {
+      const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
+      this.sortable = Sortable.create(wrapperTr, {
+        animation: 180,
+        delay: 0,
+        onEnd: evt => {
+          const oldItem = this.dropCol[evt.oldIndex]
+          this.dropCol.splice(evt.oldIndex, 1)
+          this.dropCol.splice(evt.newIndex, 0, oldItem)
+        }
+      })
     }
   }
 }

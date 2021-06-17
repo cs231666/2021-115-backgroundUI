@@ -51,27 +51,33 @@
             <div>
               <el-form v-model="dataFrom" label-width="80px" size="small" label-position="right">
                 <el-form-item label="用户昵称" prop="nickName">
+                  <el-input v-model="dataForm.nickname" auto-complete="off" />
+                </el-form-item>
+                <el-form-item label="真实姓名" prop="nickName">
+                  <el-input v-model="dataForm.realname" auto-complete="off" />
+                </el-form-item>
+                <el-form-item label="生日" prop="nickName">
+                  <el-input v-model="dataForm.birthday" auto-complete="off" />
+                </el-form-item>
+                <el-form-item label="性别" prop="nickName">
+                  <el-input v-model="dataForm.sex" auto-complete="off" />
+                </el-form-item>
+                <el-form-item label="手机号" prop="nickName">
                   <el-input v-model="dataForm.username" auto-complete="off" />
                 </el-form-item>
                 <el-form-item label="邮箱" prop="nickName">
                   <el-input v-model="dataForm.email" auto-complete="off" />
                 </el-form-item>
-                <el-form-item label="手机号" prop="nickName">
-                  <el-input v-model="dataForm.phone" auto-complete="off" />
-                </el-form-item>
-                <el-form-item label="所在地区" prop="nickName">
-                  <el-input v-model="dataForm.religion" auto-complete="off" />
-                </el-form-item>
-                <el-form-item label="住址" prop="nickName">
-                  <el-input v-model="dataForm.address" auto-complete="off" />
-                </el-form-item>
-                <el-form-item label="个人简介" prop="phone">
-                  <!--                  <el-input v-model="dataForm.info" auto-complete="off" />-->
-                  <el-input v-model="dataForm.info" type="textarea" :rows="2" placeholder="请输入内容" />
-                </el-form-item>
-                <!--                <el-form-item label="首页链接" prop="homeUrl">-->
-                <!--                  <el-input v-model="dataForm.homeUrl" maxlength="18" />-->
-                <!--                </el-form-item>-->
+<!--                <el-form-item label="所在地区" prop="nickName">-->
+<!--                  <el-input v-model="dataForm.religion" auto-complete="off" />-->
+<!--                </el-form-item>-->
+<!--                <el-form-item label="住址" prop="nickName">-->
+<!--                  <el-input v-model="dataForm.address" auto-complete="off" />-->
+<!--                </el-form-item>-->
+<!--                <el-form-item label="个人简介" prop="phone">-->
+<!--                  &lt;!&ndash;                  <el-input v-model="dataForm.info" auto-complete="off" />&ndash;&gt;-->
+<!--                  <el-input v-model="dataForm.info" type="textarea" :rows="2" placeholder="请输入内容" />-->
+<!--                </el-form-item>-->
               </el-form>
               <div slot="footer" class="dialog-footer">
                 <el-button size="mini" type="primary">提交</el-button>
@@ -87,19 +93,48 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import axios from 'axios'
+Vue.prototype.axios = axios
+import { getToken, getCode, setToken, setCode, setUser, getUser } from '@/utils/auth'
+
 export default {
   data() {
     return {
       dataForm: {
-        username: localStorage.getItem('username'),
-        nickName: '超级管理员',
-        phone: '15750735837',
-        homeUrl: 'http://www.baidu.com',
+        // username: localStorage.getItem('username'),
+        nickName: '未填写',
+        realname: '未填写',
+        birthday: '未填写',
+        sex: '未填写',
+        phone: '未填写',
+        // homeUrl: 'http://www.baidu.com',
         email: '1071495037@qq.com',
-        info: '无',
-        religion: '福建省莆田市',
-        address: '福建省闽侯县福州大学36#612'
+        // info: '无',
+        // religion: '福建省莆田市',
+        // address: '福建省闽侯县福州大学36#612'
       }
+    }
+  },
+  created() {
+    this.getUserInfo()
+  },
+  methods: {
+    getUserInfo() {
+      console.log('getuserinfo')
+      var arr = this
+      this.axios.get('/user/info', { headers: {
+        'Authorization': getToken()
+      }
+      })
+        .then(res => {
+          console.log(res.data)
+          if (res.data.code !== 200) {
+            return this.$message.error('获取个人信息失败')
+          }
+          this.$message.success('获取个人信息成功')
+          arr.dataForm = res.data.obj
+        })
     }
   }
 }
@@ -183,6 +218,4 @@ export default {
   background-color: #f9fafc;
 }
 </style>
-————————————————
-版权声明：本文为CSDN博主「小国吃不胖」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/qq_43251032/article/details/105429454
+
