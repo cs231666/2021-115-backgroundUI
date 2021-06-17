@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="db2f159e-f310-42d4-8d9f-3bb82c0ae41c" name="默认变更列表" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+        <option value="package.json" />
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1q1OPqtSwGeBpD2dut7A8HnffXr" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../elunez-eladmin-web-master/eladmin-web" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.配色方案字体" />
+    <property name="ts.external.directory.path" value="D:\IntelliJ IDEA 2020.3.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\wyh\工程实践\第三周\present-cloud-web\src\assets\images" />
+      <recent name="D:\wyh\工程实践\第三周\present-cloud-web\src\api" />
+      <recent name="D:\wyh\工程实践\第三周\vue-admin-template\src\assets\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\wyh\工程实践\第三周\present-cloud-web\src\components\Crud" />
+      <recent name="D:\wyh\工程实践\第三周\present-cloud-web\src\assets\images" />
+      <recent name="D:\wyh\工程实践\第三周\present-cloud-web\src\views" />
+      <recent name="D:\wyh\工程实践\第三周\vue-admin-template\src\views\login" />
+      <recent name="D:\wyh\工程实践\第三周\vue-admin-template\src\views\dashboard" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="!" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.dev" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="db2f159e-f310-42d4-8d9f-3bb82c0ae41c" name="默认变更列表" comment="" />
+      <created>1616243611235</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1616243611235</updated>
+      <workItem from="1616243616607" duration="3203000" />
+      <workItem from="1616250196482" duration="1046000" />
+      <workItem from="1616252507631" duration="34967000" />
+      <workItem from="1616329924248" duration="693000" />
+      <workItem from="1616334963638" duration="630000" />
+      <workItem from="1616378077251" duration="96000" />
+      <workItem from="1616425593409" duration="867000" />
+      <workItem from="1616842166616" duration="5331000" />
+      <workItem from="1616938321322" duration="3897000" />
+      <workItem from="1616987782545" duration="6811000" />
+      <workItem from="1617016974489" duration="1509000" />
+      <workItem from="1617029694391" duration="668000" />
+      <workItem from="1617274986220" duration="32982000" />
+      <workItem from="1617427400965" duration="12718000" />
+      <workItem from="1617536001800" duration="14548000" />
+      <workItem from="1617589023006" duration="20262000" />
+      <workItem from="1617678038705" duration="1649000" />
+      <workItem from="1617865735573" duration="19297000" />
+      <workItem from="1617970846443" duration="71754000" />
+      <workItem from="1618316124043" duration="6000" />
+      <workItem from="1618485819778" duration="23563000" />
+      <workItem from="1618835335367" duration="676000" />
+      <workItem from="1618838629365" duration="128000" />
+      <workItem from="1619101376613" duration="5442000" />
+      <workItem from="1619182856238" duration="3547000" />
+      <workItem from="1619187875884" duration="1956000" />
+      <workItem from="1619273167563" duration="2813000" />
+      <workItem from="1619436148109" duration="23449000" />
+      <workItem from="1619679482874" duration="1920000" />
+      <workItem from="1620264706733" duration="631000" />
+      <workItem from="1620634820718" duration="6267000" />
+      <workItem from="1621255944491" duration="15864000" />
+      <workItem from="1621298212028" duration="3753000" />
+      <workItem from="1622893984968" duration="15714000" />
+      <workItem from="1623034199857" duration="2297000" />
+      <workItem from="1623049655192" duration="12901000" />
+      <workItem from="1623114788310" duration="211000" />
+      <workItem from="1623115999950" duration="7140000" />
+      <workItem from="1623135607862" duration="1220000" />
+      <workItem from="1623137635541" duration="9605000" />
+      <workItem from="1623205182109" duration="101000" />
+      <workItem from="1623206472941" duration="19906000" />
+      <workItem from="1623635368799" duration="15682000" />
+      <workItem from="1623727994215" duration="29237000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/class/index.vue</url>
+          <line>88</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
