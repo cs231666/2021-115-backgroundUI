@@ -2,6 +2,33 @@ import Cookies from 'js-cookie'
 
 const TokenKey = 'vue_admin_template_token'
 const CodeKey = 'daoyun_code'
+const User = 'username'
+const Id = 'userid'
+const Role = 'userrole'
+export function getUser() {
+  return Cookies.get(User)
+}
+
+export function setUser(username) {
+  return Cookies.set(User, username)
+}
+
+export function getUserRole() {
+  return Cookies.get(Role)
+}
+
+export function setUserRole(userrole) {
+  return Cookies.set(Role, userrole)
+}
+
+export function getUserId() {
+  return Cookies.get(Id)
+}
+
+export function setUserId(userid) {
+  return Cookies.set(Id, userid)
+}
+
 export function getToken() {
   return Cookies.get(TokenKey)
 }
