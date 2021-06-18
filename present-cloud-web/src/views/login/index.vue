@@ -1,7 +1,8 @@
 <template>
 
   <div class="login-container">
-    <el-form class="login-form" auto-complete="on" label-position="left">
+    <div class="login_box">
+      <el-form class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
         <img v-if="logo" :src="logo" class="sidebar-logo">
@@ -129,6 +130,7 @@
       <!--      </div>-->
 
     </el-form>
+    </div>
   </div>
 </template>
 
@@ -329,12 +331,9 @@ export default {
       // this.$store.dispatch('user/login', this.loginForm)
         .then(successResponse => {
           // 获取后端返回数据
-          // console.log('123456')
           console.log(successResponse)
           // setUserId(this.loginForm.userid)
-          setUser(this.loginForm.username)
-          setToken(successResponse.data.obj.token)
-          this.getUserInfo()
+
           // setUserRole(successResponse.data.obj.role)
           // setCode(successResponse.data.code)
           // console.log(getToken())
@@ -344,7 +343,10 @@ export default {
           // 打印token
           // 判断是否登录成功
           if (successResponse.data.code === 200) {
-            this.$router.push('/dashborad')
+            setUser(this.loginForm.username)
+            setToken(successResponse.data.obj.token)
+            this.getUserInfo()
+            this.$router.push('/')
             // 加入到全局变量中
             // this.loginChange({
             //   userName: this.loginForm.userName,
@@ -353,7 +355,7 @@ export default {
             // })
             // this.$router.push('/dashborad')
           } else {
-            this.$message('用户名或密码错误')
+            this.$message.error('用户名或密码错误')
           }
         })
     },
@@ -441,6 +443,19 @@ $cursor: #fff;
     color: $cursor;
   }
 }
+
+.login_box {
+  width: 500px;
+  height: 550px;
+  /* background-color: #fff; */
+  background-color: #2e527bb3;
+  border-radius: 10px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 //.middle {
 //  position: absolute
 //  top 0
@@ -485,7 +500,7 @@ $cursor: #fff;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    color: #454545;
+    color: white;
   }
 }
 </style>
@@ -505,12 +520,13 @@ $light_gray:#eee;
 
   .login-form {
 
+    //background-color: $bg;
     position: relative;
     width: 520px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
-    margin-top:45px;//调整登录框跟顶部的位置
+    margin-top:-25px;//调整登录框跟顶部的位置
     overflow: hidden;
 
   }
@@ -529,7 +545,7 @@ $light_gray:#eee;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: $dark_gray;
+    color: white;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -537,6 +553,7 @@ $light_gray:#eee;
 
   .title-container {
     position: center;
+    margin-top:-100px;
     .sidebar-logo {
       width: 42px;
       height: 42px;
@@ -571,10 +588,18 @@ $light_gray:#eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    color: white;
     cursor: pointer;
     user-select: none;
   }
 }
+.el-tabs__item:hover {
+  color: white;
+  /*background-color: orange ;*/
 
+}
+.el-tabs__item.is-active {
+  color: white;
+  /*background-color: orange;*/
+}
 </style>

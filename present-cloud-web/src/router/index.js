@@ -5,6 +5,9 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import axios from 'axios'
+
+Vue.prototype.axios = axios
 import { getToken, getCode, setToken, setCode, setUser, getUser, setUserId, getUserId, setUserRole, getUserRole } from '@/utils/auth'
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -69,7 +72,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home', requireAuth: true,roles: ['teacher','admin'] }
+      meta: { title: '首页', icon: 'el-icon-s-home', requireAuth: true, roles: ['teacher', 'admin'] }
     }]
   },
   {
@@ -77,13 +80,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/userinfo',
     name: 'Example',
-    meta: { title: '个人中心', icon: 'el-icon-user-solid',requireAuth: true, roles: ['teacher','admin' ] },
+    meta: { title: '个人中心', icon: 'el-icon-user-solid', requireAuth: true, roles: ['teacher', 'admin'] },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/user/userinf/userinf'),
-        meta: { title: '个人信息', requireAuth: true,roles: ['teacher','admin' ] }
+        meta: { title: '个人信息', requireAuth: true, roles: ['teacher', 'admin'] }
       }
       // {
       //   path: 'tree',
@@ -98,13 +101,13 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/class',
     name: 'Example',
-    meta: { title: '班课', icon: 'form',requireAuth: true, roles: ['teacher', 'admin'] },
+    meta: { title: '班课', icon: 'form', requireAuth: true, roles: ['teacher', 'admin'] },
     children: [
       {
         path: 'query',
         name: 'Table',
         component: () => import('@/views/class/index'),
-        meta: { title: '班课管理', icon: 'table',requireAuth: true, roles: ['teacher', 'admin'] }
+        meta: { title: '班课管理', icon: 'table', requireAuth: true, roles: ['teacher', 'admin'] }
       }
       // ,
       // {
@@ -120,43 +123,43 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/dashboard2',
     name: 'Example',
-    meta: { title: '系统管理', icon: 'el-icon-s-tools', requireAuth: true,roles: ['admin'] },
+    meta: { title: '系统管理', icon: 'el-icon-s-tools', requireAuth: true, roles: ['admin'] },
     children: [
       {
         path: 'table1',
         name: 'Table',
         component: () => import('@/views/system/usermanagement/usermanagement'),
-        meta: { title: '用户管理', requireAuth: true,roles: ['admin'] }
+        meta: { title: '用户管理', requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree2',
         name: 'Tree',
         component: () => import('@/views/system/rolemanagement/rolemanagement'),
-        meta: { title: '角色管理', requireAuth: true,roles: ['admin'] }
+        meta: { title: '角色管理', requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree3',
         name: 'Tree',
         component: () => import('@/views/system/menumanagement/index'),
-        meta: { title: '菜单管理',requireAuth: true, roles: ['admin'] }
+        meta: { title: '菜单管理', requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree4',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: '权限管理', requireAuth: true,roles: ['admin'] }
+        meta: { title: '权限管理', requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree5',
         name: 'Tree',
         component: () => import('@/views/system/datadictionary/index'),
-        meta: { title: '数据字典',requireAuth: true, roles: ['admin'] }
+        meta: { title: '数据字典', requireAuth: true, roles: ['admin'] }
       },
       {
         path: 'tree6',
         name: 'Tree',
         component: () => import('@/views/system/systemparameter/index'),
-        meta: { title: '系统参数',requireAuth: true, roles: ['admin'] }
+        meta: { title: '系统参数', requireAuth: true, roles: ['admin'] }
       }
     ]
   },
@@ -197,7 +200,7 @@ export function resetRouter() {
 router.beforeEach((to, from, next) => {
   console.log('上一个页面：', from)
   console.log('下一个页面：', to)
-  let userToken = getToken()
+  const userToken = getToken()
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
     console.log('main-token：', userToken)
     if (userToken) { // 判断本地是否存在token
@@ -207,9 +210,14 @@ router.beforeEach((to, from, next) => {
             next()
             break
           } else if (i === to.meta.roles.length - 1) {
+            // console.log('没有权限')
+            alert('没有访问权限')
             next({
-              path: '/403'
+              path: from.path
             })
+            // next({
+            //   path: '/403'
+            // })
           }
         }
       } else {
