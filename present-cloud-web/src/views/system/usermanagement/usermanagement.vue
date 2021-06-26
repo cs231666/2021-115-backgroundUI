@@ -5,18 +5,18 @@
     <!--      <el-breadcrumb-item>用户管理</el-breadcrumb-item>-->
     <!--      <el-breadcrumb-item>用户列表</el-breadcrumb-item>-->
     <!--    </el-breadcrumb>-->
-    <el-card class="users-card">
+    <el-card class="box-card">
       <!-- 搜索框 -->
       <el-row class="searchRow" :gutter="20">
         <el-col :span="8">
           <el-input
+            v-model="queryText"
             placeholder="请输入用户名"
             class="inputSearch"
-            v-model="queryText"
             clearable
             @clear="getUserList"
           >
-            <el-button slot="append" icon="el-icon-search" @click="searchUsers"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="searchUsers" />
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -25,11 +25,11 @@
       </el-row>
       <!-- 用户列表区域 -->
       <el-table v-if="showUsersList" :data="userslist" stripe>
-        <el-table-column type="index" label="#" fixed></el-table-column>
-        <el-table-column label="姓名" prop="username"></el-table-column>
-        <el-table-column label="邮箱" prop="email"></el-table-column>
-        <el-table-column label="联系方式" prop="phone"></el-table-column>
-        <el-table-column label="角色" prop="roleName"></el-table-column>
+        <el-table-column type="index" label="#" fixed />
+        <el-table-column label="姓名" prop="username" />
+        <el-table-column label="邮箱" prop="email" />
+        <el-table-column label="联系方式" prop="phone" />
+        <el-table-column label="角色" prop="roleName" />
         <el-table-column label="操作" width="200" fixed="right">
           <template slot-scope="scope">
             <!-- 修改用户按钮 -->
@@ -38,14 +38,14 @@
               icon="el-icon-edit"
               size="mini"
               @click="showEditDialog(scope.row.id)"
-            ></el-button>
+            />
             <!-- 删除用户按钮 -->
             <el-button
               type="danger"
               icon="el-icon-delete"
               size="mini"
               @click="removeUserById(scope.row.id)"
-            ></el-button>
+            />
             <!-- 分配角色按钮 -->
             <el-tooltip
               class="item"
@@ -60,17 +60,17 @@
                 size="mini"
                 circle
                 @click="showSetRole(scope.row)"
-              ></el-button>
+              />
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
       <el-table v-if="!showUsersList" :data="searchUserslist" stripe>
-        <el-table-column type="index" label="#" fixed></el-table-column>
-        <el-table-column label="姓名" prop="username"></el-table-column>
-        <el-table-column label="邮箱" prop="email"></el-table-column>
-        <el-table-column label="联系方式" prop="phone"></el-table-column>
-        <el-table-column label="角色" prop="roleName"></el-table-column>
+        <el-table-column type="index" label="#" fixed />
+        <el-table-column label="姓名" prop="username" />
+        <el-table-column label="邮箱" prop="email" />
+        <el-table-column label="联系方式" prop="phone" />
+        <el-table-column label="角色" prop="roleName" />
         <el-table-column label="操作" width="200" fixed="right">
           <template slot-scope="scope">
             <!-- 修改用户按钮 -->
@@ -79,14 +79,14 @@
               icon="el-icon-edit"
               size="mini"
               @click="showEditDialog(scope.row.id)"
-            ></el-button>
+            />
             <!-- 删除用户按钮 -->
             <el-button
               type="danger"
               icon="el-icon-delete"
               size="mini"
               @click="removeUserById(scope.row.id)"
-            ></el-button>
+            />
             <!-- 分配角色按钮 -->
             <el-tooltip
               class="item"
@@ -101,42 +101,42 @@
                 size="mini"
                 circle
                 @click="showSetRole(scope.row)"
-              ></el-button>
+              />
             </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页区域 -->
       <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
         :current-page="queryInfo.page"
         :page-sizes="[5, 10, 15, 20]"
         :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
         align="right"
-      ></el-pagination>
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </el-card>
 
     <!-- 添加用户的对话框 -->
     <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
       <!-- 内容主体区域 -->
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
+      <el-form ref="addFormRef" :model="addForm" :rules="addFormRules" label-width="70px">
         <el-form-item label="角色ID" prop="roleId">
-          <el-input v-model="addForm.roleId"></el-input>
+          <el-input v-model="addForm.roleId" />
         </el-form-item>
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="addForm.username"></el-input>
+          <el-input v-model="addForm.username" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="addForm.password"></el-input>
+          <el-input v-model="addForm.password" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="addForm.email"></el-input>
+          <el-input v-model="addForm.email" />
         </el-form-item>
         <el-form-item label="手机" prop="phone">
-          <el-input v-model="addForm.phone"></el-input>
+          <el-input v-model="addForm.phone" />
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
@@ -155,25 +155,25 @@
     >
       <!-- 内容主体 -->
       <el-form
-        :model="editUserForm"
         ref="editUserFormRef"
+        :model="editUserForm"
         :rules="editUserFormRules"
         label-width="70px"
       >
         <el-form-item label="用户ID">
-          <el-input v-model="editUserForm.id" disabled></el-input>
+          <el-input v-model="editUserForm.id" disabled />
         </el-form-item>
         <el-form-item label="用户名">
-          <el-input v-model="editUserForm.username" disabled></el-input>
+          <el-input v-model="editUserForm.username" disabled />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="editUserForm.password"></el-input>
+          <el-input v-model="editUserForm.password" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="editUserForm.email"></el-input>
+          <el-input v-model="editUserForm.email" />
         </el-form-item>
         <el-form-item label="手机" prop="phone">
-          <el-input v-model="editUserForm.phone"></el-input>
+          <el-input v-model="editUserForm.phone" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -190,8 +190,8 @@
       @close="setRoleDialogClosed"
     >
       <div>
-        <p>当前用户：{{userInfo.username}}</p>
-        <p>当前角色：{{userInfo.roleName}}</p>
+        <p>当前用户：{{ userInfo.username }}</p>
+        <p>当前角色：{{ userInfo.roleName }}</p>
         <p>
           分配角色：
           <el-select
@@ -206,7 +206,7 @@
               :key="item.id"
               :label="item.roleName"
               :value="item.id"
-            ></el-option>
+            />
           </el-select>
         </p>
       </div>
@@ -220,7 +220,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     // 自定义邮箱规则
     var checkEmail = (rule, value, callback) => {
       const regEmail = /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
@@ -308,13 +308,13 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getUserList()
     this.getTotal()
   },
   methods: {
     // 模糊查询
-    async searchUsers () {
+    async searchUsers() {
       const { data: res } = await this.$http.get(
         'super/users?username=' + this.queryText
       )
@@ -326,7 +326,7 @@ export default {
       this.searchUserslist.push(res.result)
       this.total = 1
     },
-    async getUserList () {
+    async getUserList() {
       const { data: res } = await this.$http.get('super/users', {
         params: this.queryInfo
       })
@@ -338,26 +338,26 @@ export default {
       this.userslist = res.result
     },
     // 获取总用户数
-    async getTotal () {
+    async getTotal() {
       const { data: res } = await this.$http.get('super/users/total')
       this.total = res.result
     },
     // 监听 pagesize 改变的事件
-    handleSizeChange (newSize) {
+    handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
       this.getUserList()
     },
     // 监听添加用户对话框关闭事件
-    addDialogClosed () {
+    addDialogClosed() {
       this.$refs.addFormRef.resetFields()
     },
     // 监听 页码值 的改变
-    handleCurrentChange (newPage) {
+    handleCurrentChange(newPage) {
       this.queryInfo.page = newPage
       this.getUserList()
     },
     // 添加用户
-    addUser () {
+    addUser() {
       // 提交请求前，表单预验证
       this.$refs.addFormRef.validate(async valid => {
         // 表单预校验失败
@@ -375,7 +375,7 @@ export default {
       })
     },
     // 编辑用户信息
-    async showEditDialog (id) {
+    async showEditDialog(id) {
       const { data: res } = await this.$http.get('super/users?userId=' + id)
       if (res.state !== 'success') {
         return this.$message.error('查询用户信息失败！')
@@ -384,11 +384,11 @@ export default {
       this.editDialogVisible = true
     },
     // 监听修改用户对话框的关闭事件
-    editDialogClosed () {
+    editDialogClosed() {
       this.$refs.editUserFormRef.resetFields()
     },
     // 修改用户信息
-    editUser () {
+    editUser() {
       // 提交请求前，表单预验证
       this.$refs.editUserFormRef.validate(async valid => {
         // console.log(valid)
@@ -408,7 +408,7 @@ export default {
       })
     },
     // 删除用户
-    async removeUserById (id) {
+    async removeUserById(id) {
       const confirmResult = await this.$confirm(
         '此操作将永久删除该用户, 是否继续?',
         '提示',
@@ -429,7 +429,7 @@ export default {
       this.getUserList()
     },
     // 展示分配角色的对话框
-    async showSetRole (role) {
+    async showSetRole(role) {
       this.userInfo = role
       // 展示对话框之前，获取所有角色列表
       const { data: res } = await this.$http.get('role')
@@ -441,7 +441,7 @@ export default {
       this.setRoleDialogVisible = true
     },
     // 分配角色
-    async saveRoleInfo () {
+    async saveRoleInfo() {
       if (!this.selectRoleId) {
         return this.$message.error('请选择要分配的角色')
       }
@@ -457,7 +457,7 @@ export default {
       this.setRoleDialogVisible = false
     },
     // 分配角色对话框关闭事件
-    setRoleDialogClosed () {
+    setRoleDialogClosed() {
       this.selectRoleId = ''
       this.userInfo = {}
     }

@@ -4,18 +4,17 @@
       <el-col :span="24" :xs="24" :sm="24" :md="24" :lg="24" :xl="24" style="margin-bottom: 10px">
 
         <el-row>
-          <!--          <el-col :span="12">-->
-          <!--            <el-input-->
-          <!--              v-model="queryInfo.dataName"-->
-          <!--              placeholder="请输入数据字典value关键字"-->
-          <!--              class="inputSearch"-->
-          <!--              clearable-->
-          <!--              @clear="getCourseList"-->
-          <!--            >-->
-          <!--              <el-button slot="append" icon="el-icon-search" @click="getCourseList" />-->
-          <!--            </el-input>-->
-          <!--          </el-col>-->
-
+<!--          <el-col :span="12">-->
+<!--            <el-input-->
+<!--              v-model="queryInfo.dataName"-->
+<!--              placeholder="请输入数据字典value关键字"-->
+<!--              class="inputSearch"-->
+<!--              clearable-->
+<!--              @clear="getCourseList"-->
+<!--            >-->
+<!--              <el-button slot="append" icon="el-icon-search" @click="getCourseList" />-->
+<!--            </el-input>-->
+<!--          </el-col>-->
           <el-col :span="18">
             <el-button
               class="filter-item"
@@ -43,7 +42,7 @@
                 <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                   <el-tab-pane label="班课成员" name="first">
                     <div v-if="scope.row.childList.length>0">
-                      <el-table :data="scope.row.childList" style="width=100%" border height="250">
+                      <el-table :data="scope.row.childList" style="width=100%" border>
 
                         <el-table-column label="ID" prop="studentId" width="150" />
                         <el-table-column label="学生姓名" prop="realname" width="150" />
@@ -51,16 +50,10 @@
                       </el-table>
                     </div>
                     <div v-else align="center">该班课没有学生</div></el-tab-pane>
-                  <el-tab-pane label="签到记录" name="second" height="250">
-                    <div v-if="scope.row.signinList.length>0">
-                      <el-table :data="scope.row.signinList" style="width=100%" border height="250" @row-click="getSignedList">
-                        <el-table-column label="id" prop="id" width="150" />
-                        <el-table-column label="发布时间" prop="createTime" width="250" />
-                      </el-table>
-                    </div>
-                    <div v-else align="center">该班课没有签到记录</div>
-                  </el-tab-pane>
+                  <el-tab-pane label="签到记录" name="second">配置管理</el-tab-pane>
                 </el-tabs>
+
+                <!--                <el-table-column label="操作" width="150" fixed="right">-->
               </el-card>
             </template>
 
@@ -70,17 +63,17 @@
           <el-table-column label="授课教师" prop="teacher" width="100" />
           <el-table-column label="学校院系" prop="org" width="250" />
           <el-table-column label="授课学期" prop="term" width="120" />
-          <el-table-column v-if="isadmin" label="操作" width="350">
+          <el-table-column label="操作" width="350">
             <!--              <el-table-column label="操作" width="150" fixed="right">-->
             <template slot-scope="scope">
-              <!--              <el-button-->
-              <!--                type="success"-->
-              <!--                size="mini"-->
-              <!--                @click="showAddStuDialog(scope.row)"-->
-              <!--              >加入学生</el-button>-->
+<!--              <el-button-->
+<!--                type="success"-->
+<!--                size="mini"-->
+<!--                @click="showAddStuDialog(scope.row)"-->
+<!--              >加入学生</el-button>-->
               <!--
 
--->
+              -->
               <!-- 编辑数据字典按钮 -->
               <el-button
                 type="primary"
@@ -98,16 +91,17 @@
         </el-table>
         <!-- 分页区域 -->
 
-        <!--        <el-pagination-->
-        <!--          :current-page="queryInfo.page"-->
-        <!--          :page-sizes="[5, 10, 15, 20]"-->
-        <!--          :page-size="queryInfo.pageSize"-->
-        <!--          layout="total, sizes, prev, pager, next, jumper"-->
-        <!--          :total="total"-->
-        <!--          align="right"-->
-        <!--          @size-change="handleSizeChange"-->
-        <!--          @current-change="handleCurrentChange"-->
-        <!--        />-->
+
+<!--        <el-pagination-->
+<!--          :current-page="queryInfo.page"-->
+<!--          :page-sizes="[5, 10, 15, 20]"-->
+<!--          :page-size="queryInfo.pageSize"-->
+<!--          layout="total, sizes, prev, pager, next, jumper"-->
+<!--          :total="total"-->
+<!--          align="right"-->
+<!--          @size-change="handleSizeChange"-->
+<!--          @current-change="handleCurrentChange"-->
+<!--        />-->
 
       </el-col>
 
@@ -222,45 +216,11 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editCourseVisible = false">取 消</el-button>
+        <el-button @click="addCourseVisible = false">取 消</el-button>
         <el-button type="primary" @click="editCourse()">确 定</el-button>
       </span>
     </el-dialog>
-    <!--    <el-radio-group v-model="direction">-->
-    <!--      <el-radio label="ltr">从左往右开</el-radio>-->
-    <!--      <el-radio label="rtl">从右往左开</el-radio>-->
-    <!--      <el-radio label="ttb">从上往下开</el-radio>-->
-    <!--      <el-radio label="btt">从下往上开</el-radio>-->
-    <!--    </el-radio-group>-->
-    <el-drawer
-      title="签到记录"
-      :visible.sync="drawer"
-      :direction="direction"
-      :before-close="handleClose"
-    >
-<!--      <el-table :data="signedList" stripe :row-key="getRowKeys" >-->
-<!--        &lt;!&ndash;            <template slot-scope="scope" v-if="scope.row.childList.length>0">&ndash;&gt;-->
-<!--        &lt;!&ndash;              <el-table :data="scope.row.childList" style="width=100%">&ndash;&gt;-->
-
-<!--        &lt;!&ndash;              </el-table>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </template>&ndash;&gt;-->
-<!--        <el-table-column label="学号" prop="studentId" width="100" />-->
-<!--        <el-table-column label="姓名" prop="realname" width="80" />-->
-<!--        <el-table-column label="签到时间" prop="signTime" width="250" />-->
-<!--      </el-table>-->
-
-      <div v-if="signedList.length>0">
-        <el-table :data="signedList" style="width=100%" border height="250">
-
-          <el-table-column label="学号" prop="studentId" width="100" />
-          <el-table-column label="姓名" prop="realname" width="80" />
-          <el-table-column label="签到时间" prop="signTime" width="250" />
-        </el-table>
-      </div>
-      <div v-else align="center">没有签到记录</div>
-    </el-drawer>
   </div>
-
 </template>
 
 <script>
@@ -272,13 +232,9 @@ Vue.prototype.axios = axios
 export default {
   data() {
     return {
-      drawer: false,
-      direction: 'rtl',
-      signedList: [],
-      isadmin: false,
       activeName: 'first',
       school: [],
-      expands: [],
+      expands:[],
       childList: [],
       reschildList: [],
       signinList: [],
@@ -317,11 +273,6 @@ export default {
         newNote: '',
         term: '',
         courseId: ''
-      },
-      signedForm: {
-        studentId: '',
-        realName: '',
-        signTime: ''
       },
       queryInfo: {
         getAll: 1,
@@ -364,97 +315,20 @@ export default {
     }
   },
   created() {
-    this.isadmin = false
     this.getCourseList()
     this.getUserInfo()
-    if (getUserRole() === 'admin') {
-      this.isadmin = true
-    }
     this.getOrg()
   },
   methods: {
-    // handleClose(done) {
-    //   this.$confirm('确认关闭？')
-    //     .then(_ => {
-    //       done()
-    //     })
-    //     .catch(_ => {})
-    // },
     handleClick(tab, event) {
       console.log(tab, event)
     },
     getRowKeys(row) {
       return row.courseId
     },
-    async getSigninList(row, expandRows) {
-      var that = this
-      if (expandRows.length) {
-        that.expands = []
-        if (row) {
-          // console.log('rowid')
-          // console.log(row.courseId)
-          that.expands.push(row.courseId)// 每次push进去的是每行的ID
-          if (expandRows.length > 0) {
-            this.courseList.map(async(item, index) => {
-              // console.log(item)
-              // console.log(index)
-              if (item.courseId === row.courseId) {
-                console.log('查的是' + item.courseCode)
-                this.axios.get('/sign/allSignIn/',
-                  {
-                    params: {
-                      'course_code': item.courseCode
-                    }
-                  })
-                  .then(res => {
-                    console.log('查询该班课所有签到记录')
-                    console.log(res.data)
-
-                    if (res.data.code !== 200) {
-                      return 0
-                    } else {
-                      // if (!res.data.obj.length) {
-                      //   set(res.data.obj, 'length', 0)
-                      // }
-                      that.ressigninList = res.data.obj
-
-                      console.log(that.ressigninList)
-                    }
-                    this.courseList[index].signinList = that.ressigninList
-                    // this.courseList[index].signinList.length =arr.ressigninList.length?arr.ressigninList.length:0
-                  })
-              }
-              // console.log(item)
-            })
-          }
-          // console.log('row data')
-          // console.log(row)
-        }
-      } else {
-        that.expands = []// 默认不展开
-      }
-    },
     async showexpand(row, expandRows) {
-      // let params = new URLSearchParams();
-      // params.append('city',data.fault_county);
-      // params.append('level',data.network_level);
-      // let obj = await initAxios(params);
-      // console.log(data.courseCode)
-      // var arr = this
-      // this.axios.get('/course/course-member/' + data.courseCode)
-      //   .then(res => {
-      //     console.log(res.data)
-      //     this.memberList = res.data.obj
-      //     if (res.data.code !== 200) {
-      //       return 0
-      //     }
-      //     // this.$message.success('获取个人信息成功')
-      //     console.log(this.memberList)
-      //     arr.courseList.children = this.memberList
-      //   })
-      // console.log(row)
+      console.log(row)
       // console.log(expandRows)
-
       var that = this
       if (expandRows.length) {
         that.expands = []
@@ -480,7 +354,6 @@ export default {
                       return 0
                     } else {
                       arr.reschildList = res.data.obj
-                      console.log('arr.reschildList')
                       console.log(arr.reschildList)
                     }
                     this.courseList[index].childList = arr.reschildList
@@ -489,44 +362,15 @@ export default {
                     // arr.courseList.children = this.memberList
                   })
               }
-
-              // console.log(item)
+              console.log(item)
             })
           }
-          // console.log('row data')
-        //  console.log(row)
+          console.log('row data')
+          console.log(row)
         }
       } else {
         that.expands = []// 默认不展开
       }
-      this.getSigninList(row, expandRows)
-    },
-    getSignedList(data) {
-      console.log(data)
-      this.axios.get('/sign/getSignInInfoBYSignInId/',
-        { params: {
-          'sign_id': data.id
-        }}
-      )
-        .then(res => {
-          console.log('查询' + data.id + '所有已签到记录')
-          console.log(res.data.obj)
-
-          if (res.data.code !== 200) {
-            return 0
-          } else {
-            this.signedList = res.data.obj
-            this.drawer = true
-            // if (!res.data.obj.length) {
-            //   set(res.data.obj, 'length', 0)
-            // }
-            // that.ressigninList = res.data.obj
-
-            // console.log(that.ressigninList)
-          }
-          // this.courseList[index].signinList = that.ressigninList
-          // this.courseList[index].signinList.length =arr.ressigninList.length?arr.ressigninList.length:0
-        })
     },
     closeExpand() {
       this.expands = []
@@ -535,8 +379,8 @@ export default {
       console.log('getuserinfo')
       var arr = this
       this.axios.get('/user/info', { headers: {
-        'Authorization': getToken()
-      }
+          'Authorization': getToken()
+        }
       })
         .then(res => {
           console.log(res.data)
@@ -614,7 +458,7 @@ export default {
     getCourseList() {
       // console.log()
       var arr = this
-      this.axios.get('/course/')
+      this.axios.get('/course/createby/' + getUserId())
         .then(res => {
           // console.log(res.data)
           if (res.data.code !== 200) {
@@ -704,11 +548,11 @@ export default {
       }
       // console.log(dataForm)
       await this.axios.delete('/course/' + dataForm.courseId).then(res => {
-        // console.log(res)
-        if (res.data.code !== 200) return this.$message.error('删除班课失败！')
-        this.$message.success('删除班课成功！')
-        this.getCourseList()
-      }
+          // console.log(res)
+          if (res.data.code !== 200) return this.$message.error('删除班课失败！')
+          this.$message.success('删除班课成功！')
+          this.getCourseList()
+        }
 
       )
     },

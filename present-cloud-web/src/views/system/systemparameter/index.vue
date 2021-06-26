@@ -7,7 +7,7 @@
             <el-col :span="12">
               <span>系统参数</span>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
               <el-button
                 class="filter-item"
                 size="mini"
@@ -53,7 +53,7 @@
     <el-dialog
       title="新增系统参数"
       :visible.sync="addSysParamVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="addSysParamForm" :rules="addSysParamFormRules" label-width="80px">
@@ -120,7 +120,8 @@ export default {
       editSysParamForm: {
         sysParamName: '',
         sysParamValue: '',
-        newSysParamValue: ''
+        newSysParamValue: '',
+        sysParamKey: ''
       },
       addSysParamForm: {
         sysParamName: '',
@@ -175,6 +176,7 @@ export default {
       console.log(res)
       this.editSysParamForm.sysParamName = res.paramName
       this.editSysParamForm.sysParamValue = res.paramValue
+      this.editSysParamForm.sysParamKey = res.paramKey
       this.nowParamId = res.paramId
       this.editSysParamDialogVisible = true
     },
@@ -205,7 +207,7 @@ export default {
     },
     editSysParam() {
       this.axios.put('/sys-param/' + this.nowParamId + '/' + this.editSysParamForm.sysParamName +
-        '/' + this.editSysParamForm.newSysParamValue)
+        '/' + this.editSysParamForm.sysParamKey + '/' + this.editSysParamForm.newSysParamValue)
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {

@@ -1,38 +1,74 @@
 <template>
   <div class="forget-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <div class="forgetpsw_box">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" style="margin-top: -100px">
 
-      <div class="title-container">
-        <h3 class="title" style="color: white" >忘记密码</h3>
-      </div>
+        <div class="title-container">
+          <h3 class="title" style="color: white">忘记密码</h3>
+        </div>
 
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="请输入手机号"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="请输入手机号"
+            name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+        <el-form-item prop="verifyCode" style="margin-bottom:18px;">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleSend" disabled>发送</el-button>
-      <el-button :loading="loading" type="text" style="width:100%;margin-bottom:5px;margin-left: 0px;color:white" @click.native.prevent="handleCancel">重置</el-button>
-      <el-button :loading="loading" type="text" style="float:right;font-weight:bold;color:white" @click.native.prevent="handlelogin">返回登录</el-button>
+          <el-input
+            ref="verifyCode"
+            v-model="loginForm.verifyCode"
+            placeholder="验证码"
+            name="verifyCode"
+            tabindex="2"
+            auto-complete="on"
+          />
+          <!--          @keyup.enter.native="handleLogin"-->
 
-    </el-form>
+          <span class="svg-container">
+            <!--                <el-button>获取验证码</el-button>-->
+          </span>
+          <span v-show="sendAuthCode" class="auth_text auth_text_blue" @click="getAuthCode">获取验证码</span>
+          <span v-show="!sendAuthCode" class="auth_text"> <span class="auth_text_blue">{{ auth_time }} </span>
+            秒重发</span>
+        </el-form-item>
+        <el-button :loading="loading" type="primary" style="width:45%;margin-bottom:5px;margin-left: 10px;color:white" @click.native.prevent="handleCancel">清空</el-button>
+        <el-button :loading="loading" type="primary" style="width:45%;margin-bottom:20px;margin-left: 20px"  @click.native.prevent="resetPsw">重置密码</el-button>
+
+        <el-button :loading="loading" type="text" style="float:right;font-weight:bold;color:white" @click.native.prevent="handlelogin">返回登录</el-button>
+
+      </el-form>
+    </div>
   </div>
 </template>
 <script>
+import { setToken, setUser } from '@/utils/auth'
+
 console.log('forgetpsw page')
 import { validUsername } from '@/utils/validate'
 export default {
   name: 'Index',
+  computed: {
+    // 用于校验手机号码格式是否正确
+    phoneNumberStyle() {
+      const reg = /^1[3456789]\d{9}$/
+      if (!reg.test(this.loginForm.username)) {
+        return false
+      }
+      return true
+    }
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -42,8 +78,13 @@ export default {
       }
     }
     return {
+      sendAuthCode: true,
+      /* 布尔值，通过v-show控制显示‘获取按钮’还是‘倒计时’ */
+      auth_time: 0,
+      /* 倒计时 计数器*/
       loginForm: {
-        username: ''
+        username: '',
+        verifyCode: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }]
@@ -65,6 +106,51 @@ export default {
     },
     handlelogin() {
       this.$router.push('/login')
+    },
+    getAuthCode() {
+      if (this.phoneNumberStyle) {
+        console.log('发送验证码' + this.loginForm.username)
+        this.axios.post('/sms/' + this.loginForm.username)
+          .then(res => {
+            console.log(res)
+            if (res.data.code !== 200) {
+              this.$message.error('获取验证码失败！')
+            }
+            this.$message.success('获取验证码成功！')
+            this.verifyCode = res.data.verifyCode
+          })
+        this.sendAuthCode = false
+        // 设置倒计时秒
+        this.auth_time = 30
+        var auth_timetimer = setInterval(() => {
+          this.auth_time--
+          if (this.auth_time <= 0) {
+            this.sendAuthCode = true
+            clearInterval(auth_timetimer)
+          }
+        }, 1000)
+      } else {
+        this.$message.error('请输入手机号！')
+      }
+    },
+    resetPsw(){
+      this.axios.put('/user/forgotPassword',
+        {
+          'username': this.loginForm.username,
+          'code': this.loginForm.verifyCode
+        })
+        .then(res => {
+          // 获取后端返回数据
+          console.log(res)
+          if (res.data.code === 200) {
+            setUser(this.loginForm.username)
+            setToken(res.data.obj.token)
+            this.getUserInfo()
+            this.$router.push('/login')
+          } else {
+            this.$message.error('用户名或密码错误')
+          }
+        })
     }
   }
 }
@@ -89,7 +175,7 @@ $cursor: #fff;
   .el-input {
     display: inline-block;
     height: 47px;
-    width: 85%;
+    width: 65%;
 
     input {
       background: transparent;
@@ -97,7 +183,7 @@ $cursor: #fff;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: white;
       height: 47px;
       caret-color: $cursor;
 
@@ -121,7 +207,18 @@ $cursor: #fff;
 $bg:#F2F6FC;
 $dark_gray:#889aa4;
 $light_gray:#eee;
+.forgetpsw_box {
+  width: 500px;
+  height: 400px;
+  /* background-color: #fff; */
+  background-color: #2e527bb3;
+  border-radius: 10px;
 
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .forget-container {
   min-height: 100%;
   width: 100%;
@@ -157,7 +254,7 @@ $light_gray:#eee;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: $dark_gray;
+    color: white;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -168,7 +265,7 @@ $light_gray:#eee;
 
     .title {
       font-size: 26px;
-      color: $dark_gray;
+      color: white;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
@@ -180,7 +277,7 @@ $light_gray:#eee;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    color: white;
     cursor: pointer;
     user-select: none;
   }

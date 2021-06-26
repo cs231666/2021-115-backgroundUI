@@ -13,17 +13,12 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              主页
-            </el-dropdown-item>
-          </router-link>
-          <!--          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">-->
-          <!--            <el-dropdown-item>Github</el-dropdown-item>-->
-          <!--          </a>-->
-          <!--          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">-->
-          <!--            <el-dropdown-item>Docs</el-dropdown-item>-->
-          <!--          </a>-->
+<!--          <router-link to="/">-->
+<!--            <el-dropdown-item>-->
+<!--              主页-->
+<!--            </el-dropdown-item>-->
+<!--          </router-link>-->
+
           <el-dropdown-item divided @click.native="changePswVisible = true">
             <span style="display:block;">修改密码</span>
           </el-dropdown-item>
@@ -38,7 +33,7 @@
     <el-dialog
       title="修改密码"
       :visible.sync="changePswVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="changePswForm" :rules="changePswFormRules" label-width="80px">
@@ -211,6 +206,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$bg:#283443;
+$light_gray:#fff;
+$cursor: #fff;
+.el-input {
+  display: inline-block;
+  height: 47px;
+  width: 85%;
+
+  input {
+    background: transparent;
+    border: 0px;
+    -webkit-appearance: none;
+    border-radius: 0px;
+    padding: 12px 5px 12px 15px;
+    color: white;
+    height: 47px;
+    caret-color: $cursor;
+
+    &:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px $bg inset !important;
+      -webkit-text-fill-color: $cursor !important;
+    }
+  }
+}
 .navbar {
   height: 50px;
   overflow: hidden;

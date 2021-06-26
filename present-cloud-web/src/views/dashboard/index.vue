@@ -1,23 +1,72 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">欢迎{{username}}使用到云管理系统</div>
+  <div class="app-container">
+    <el-card class="box-card">
+    <div class="dashboard-text">欢迎{{ dataForm.realname+ ' (' + this.role + ') ' }}使用到云管理系统</div>
+    </el-card>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Vue from 'vue'
+import axios from 'axios'
+import { getToken, setUserId, getUserId, getUserRole } from '@/utils/auth'
+
+Vue.prototype.axios = axios
 
 export default {
   name: 'Dashboard',
   data() {
     return {
+      dataForm: {
+        // username: localStorage.getItem('username'),
+        nickName: '未填写',
+        realname: '未填写',
+        birthday: '未填写',
+        sex: '未填写',
+        phone: '未填写',
+        // homeUrl: 'http://www.baidu.com',
+        email: '1071495037@qq.com'
+        // info: '无',
+        // religion: '福建省莆田市',
+        // address: '福建省闽侯县福州大学36#612'
+      },
+      role: '',
       username: localStorage.getItem('username')
+    }
+  },
+  created() {
+    this.getUserInfo()
+    if (getUserRole() === 'admin') {
+      this.role = '管理员'
+    } else if (getUserRole() === 'teacher') {
+      this.role = '老师'
     }
   },
   computed: {
     ...mapGetters([
       'name'
     ])
+  },
+  methods: {
+    getUserInfo() {
+      console.log('getuserinfo')
+      var arr = this
+      this.axios.get('/user/info', { headers: {
+        'Authorization': getToken()
+      }
+      })
+        .then(res => {
+          console.log(res.data)
+          setUserId(res.data.obj.id)
+          console.log(getUserId())
+          if (res.data.code !== 200) {
+            return 0
+          }
+          // this.$message.success('获取个人信息成功')
+          arr.dataForm = res.data.obj
+        })
+    }
   }
 }
 </script>

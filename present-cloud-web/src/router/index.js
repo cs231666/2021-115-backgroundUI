@@ -37,6 +37,7 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
+    meta: {  requireAuth: false },
     hidden: true
   },
   {
@@ -76,38 +77,53 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/',
+    path: '/user',
     component: Layout,
     redirect: '/userinfo',
     name: 'Example',
-    meta: { title: '个人中心', icon: 'el-icon-user-solid', requireAuth: true, roles: ['teacher', 'admin'] },
+    meta: { title: '个人中心', icon: 'el-icon-user', requireAuth: true, roles: ['teacher', 'admin'] },
     children: [
       {
-        path: 'table',
+        path: 'userinfo',
         name: 'Table',
         component: () => import('@/user/userinf/userinf'),
         meta: { title: '个人信息', requireAuth: true, roles: ['teacher', 'admin'] }
       }
-      // {
-      //   path: 'tree',
-      //   name: 'Tree',
-      //   component: () => import('@/views/tree/index'),
-      //   meta: { title: '个人设置' }
-      // }
     ]
   },
+  // {
+  //   path: '/users',
+  //   component: Layout,
+  //   redirect: '/usermanage',
+  //   name: '用户列表',
+  //   meta: { title: '用户列表', icon: 'el-icon-user-solid', requireAuth: true, roles: ['admin'] },
+  //   children: [
+  //     {
+  //       path: 'usermanage',
+  //       name: '用户管理',
+  //       component: () => import('@/views/system/usermanagement/usermanagement'),
+  //       meta: { title: '用户管理', requireAuth: true, roles: ['admin'] }
+  //     }
+  //   ]
+  // },
   {
-    path: '/class',
+    path: '/course',
     component: Layout,
     redirect: '/class',
     name: 'Example',
-    meta: { title: '班课', icon: 'form', requireAuth: true, roles: ['teacher', 'admin'] },
+    meta: { title: '班课管理', icon: 'form', requireAuth: true, roles: ['teacher', 'admin'] },
     children: [
       {
-        path: 'query',
+        path: 'courselist',
         name: 'Table',
         component: () => import('@/views/class/index'),
-        meta: { title: '班课管理', icon: 'table', requireAuth: true, roles: ['teacher', 'admin'] }
+        meta: { title: '班课列表', requireAuth: true, roles: ['teacher', 'admin'] }
+      },
+      {
+        path: 'mycourse',
+        name: 'Table',
+        component: () => import('@/views/class/mine'),
+        meta: { title: '我创建的', requireAuth: true, roles: ['teacher', 'admin'] }
       }
       // ,
       // {
@@ -119,15 +135,40 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/1',
+    path: '/sysmanage',
     component: Layout,
-    redirect: '/dashboard2',
+    redirect: '/sysmanage',
     name: 'Example',
-    meta: { title: '系统管理', icon: 'el-icon-s-tools', requireAuth: true, roles: ['admin'] },
+    meta: { title: '系统管理', icon: 'el-icon-s-operation', requireAuth: true, roles: ['admin'] },
     children: [
+      // {
+      //   path: 'table1',
+      //   name: 'Table',
+      //   component: () => import('@/views/system/usermanagement/usermanagement'),
+      //   meta: { title: '用户管理', requireAuth: true, roles: ['admin'] }
+      // },
+
       {
-        path: 'table1',
-        name: 'Table',
+        path: 'dictionarymanagement',
+        name: '数据字典',
+        component: () => import('@/views/system/datadictionary/index'),
+        meta: { title: '数据字典', requireAuth: true, roles: ['admin'] }
+      },
+      {
+        path: 'sysparammanagement',
+        name: '系统参数',
+        component: () => import('@/views/system/systemparameter/index'),
+        meta: { title: '系统参数', requireAuth: true, roles: ['admin'] }
+      },
+      {
+        path: 'org',
+        name: '用户管理',
+        component: () => import('@/views/system/usermanagement/usermanagement'),
+        meta: { title: '组织管理', requireAuth: true, roles: ['admin'] }
+      },
+      {
+        path: 'usermanage',
+        name: '用户管理',
         component: () => import('@/views/system/usermanagement/usermanagement'),
         meta: { title: '用户管理', requireAuth: true, roles: ['admin'] }
       },
@@ -148,19 +189,8 @@ export const constantRoutes = [
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: '权限管理', requireAuth: true, roles: ['admin'] }
-      },
-      {
-        path: 'tree5',
-        name: 'Tree',
-        component: () => import('@/views/system/datadictionary/index'),
-        meta: { title: '数据字典', requireAuth: true, roles: ['admin'] }
-      },
-      {
-        path: 'tree6',
-        name: 'Tree',
-        component: () => import('@/views/system/systemparameter/index'),
-        meta: { title: '系统参数', requireAuth: true, roles: ['admin'] }
       }
+
     ]
   },
   // 404 page must be placed at the end !!!

@@ -4,115 +4,115 @@
     <div class="login_box">
       <el-form class="login-form" auto-complete="on" label-position="left">
 
-      <div class="title-container">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h3 class="title">到云后台管理系统</h3>
-      </div>
+        <div class="title-container">
+          <img v-if="logo" :src="logo" class="sidebar-logo">
+          <h3 class="title">到云后台管理系统</h3>
+        </div>
 
-      <el-tabs v-model="activeName" stretch @tab-click="handleClick">
-        <el-tab-pane label="密码登录" name="first">
-          <el-form ref="loginForm" :model="loginForm" :rules="loginRules" auto-complete="on" label-position="left">
-            <el-form-item prop="username">
-              <span class="svg-container">
-                <svg-icon icon-class="user" />
-              </span>
-              <el-input
-                ref="username"
-                v-model="loginForm.username"
-                placeholder="Username"
-                name="username"
-                type="text"
-                tabindex="1"
-                auto-complete="on"
-              />
-            </el-form-item>
+        <el-tabs v-model="activeName" stretch @tab-click="handleClick">
+          <el-tab-pane label="密码登录" name="first">
+            <el-form ref="loginForm" :model="loginForm" :rules="loginRules" auto-complete="on" label-position="left">
+              <el-form-item prop="username">
+                <span class="svg-container">
+                  <svg-icon icon-class="user" />
+                </span>
+                <el-input
+                  ref="username"
+                  v-model="loginForm.username"
+                  placeholder="Username"
+                  name="username"
+                  type="text"
+                  tabindex="1"
+                  auto-complete="on"
+                />
+              </el-form-item>
 
-            <el-form-item prop="password" style="margin-bottom:5px;">
-              <span class="svg-container">
-                <svg-icon icon-class="password" />
-              </span>
-              <el-input
-                :key="passwordType"
-                ref="password"
-                v-model="loginForm.password"
-                :type="passwordType"
-                placeholder="Password"
-                name="password"
-                tabindex="2"
-                auto-complete="on"
-                @keyup.enter.native="handleLogin"
-              />
-              <span class="show-pwd" @click="showPwd">
-                <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-              </span>
-            </el-form-item>
-            <el-row type="flex" class="row-bg" justify="end">
-              <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple">
-                <el-button class="forget-password" style="color: white" type="text" @click="handleForgetPwd">忘记密码</el-button>
-              </div>
-              </el-col>
-            </el-row>
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">登录</el-button>
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-left: 0px;" @click.native.prevent="handleRegister">注册</el-button>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane label="验证码登录" name="second">
-          <el-form ref="loginByVerifyCodeForm" :model="loginByVerifyCodeForm" :rules="loginByVerifyCodeRules" auto-complete="on" label-position="left">
-            <el-form-item prop="phone">
-              <span class="svg-container">
-                <svg-icon icon-class="user" />
-              </span>
-              <el-input
-                ref="phone"
-                v-model="loginByVerifyCodeForm.phone"
-                placeholder="请输入手机号"
-                name="phone"
-                :title="title"
-                type="text"
-                tabindex="1"
-                auto-complete="on"
-              />
-            </el-form-item>
+              <el-form-item prop="password" style="margin-bottom:5px;">
+                <span class="svg-container">
+                  <svg-icon icon-class="password" />
+                </span>
+                <el-input
+                  :key="passwordType"
+                  ref="password"
+                  v-model="loginForm.password"
+                  :type="passwordType"
+                  placeholder="Password"
+                  name="password"
+                  tabindex="2"
+                  auto-complete="on"
+                  @keyup.enter.native="handleLogin"
+                />
+                <span class="show-pwd" @click="showPwd">
+                  <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+                </span>
+              </el-form-item>
+              <el-row type="flex" class="row-bg" justify="end">
+                <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <el-button class="forget-password" style="color: white" type="text" @click="handleForgetPwd">忘记密码</el-button>
+                </div>
+                </el-col>
+              </el-row>
+              <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLogin">登录</el-button>
+              <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-left: 0px;" @click.native.prevent="handleRegister">注册</el-button>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane label="验证码登录" name="second">
+            <el-form ref="loginByVerifyCodeForm" :model="loginByVerifyCodeForm" :rules="loginByVerifyCodeRules" auto-complete="on" label-position="left">
+              <el-form-item prop="phone">
+                <span class="svg-container">
+                  <svg-icon icon-class="user" />
+                </span>
+                <el-input
+                  ref="phone"
+                  v-model="loginByVerifyCodeForm.phone"
+                  placeholder="请输入手机号"
+                  name="phone"
+                  :title="title"
+                  type="text"
+                  tabindex="1"
+                  auto-complete="on"
+                />
+              </el-form-item>
 
-            <!--
+              <!--
 -->
-            <el-form-item prop="verifyCode" style="margin-bottom:18px;">
-              <span class="svg-container">
-                <svg-icon icon-class="password" />
-              </span>
+              <el-form-item prop="verifyCode" style="margin-bottom:18px;">
+                <span class="svg-container">
+                  <svg-icon icon-class="password" />
+                </span>
 
-              <el-input
-                ref="verifyCode"
-                v-model="loginByVerifyCodeForm.verifyCode"
-                placeholder="验证码"
-                name="verifyCode"
-                tabindex="2"
-                auto-complete="on"
-                @keyup.enter.native="handleLogin"
-              />
-              <span class="svg-container">
+                <el-input
+                  ref="verifyCode"
+                  v-model="loginByVerifyCodeForm.verifyCode"
+                  placeholder="验证码"
+                  name="verifyCode"
+                  tabindex="2"
+                  auto-complete="on"
+                  @keyup.enter.native="handleLogin"
+                />
+                <span class="svg-container">
                 <!--                <el-button>获取验证码</el-button>-->
-              </span>
-              <span v-show="sendAuthCode" class="auth_text auth_text_blue" @click="getAuthCode">获取验证码</span>
-              <span v-show="!sendAuthCode" class="auth_text"> <span class="auth_text_blue">{{ auth_time }} </span>
-                秒重发</span>
-            </el-form-item>
-            <el-row type="flex" class="row-bg" justify="end">
-              <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
-              <el-col :span="6"><div class="grid-content bg-purple">
-                <el-button style="color: white" type="text" />
-              </div>
-              </el-col>
-            </el-row>
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLoginByVerifyCode">登录</el-button>
-          <!--          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-left: 0px;" @click.native.prevent="handleRegister">注册</el-button>-->
-          </el-form>
-        </el-tab-pane>
+                </span>
+                <span v-show="sendAuthCode" class="auth_text auth_text_blue" @click="getAuthCode">获取验证码</span>
+                <span v-show="!sendAuthCode" class="auth_text"> <span class="auth_text_blue">{{ auth_time }} </span>
+                  秒重发</span>
+              </el-form-item>
+              <el-row type="flex" class="row-bg" justify="end">
+                <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
+                <el-col :span="6"><div class="grid-content bg-purple">
+                  <el-button style="color: white" type="text" />
+                </div>
+                </el-col>
+              </el-row>
+              <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:20px;" @click.native.prevent="handleLoginByVerifyCode">登录</el-button>
+              <!--          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-left: 0px;" @click.native.prevent="handleRegister">注册</el-button>-->
+            </el-form>
+          </el-tab-pane>
 
-      </el-tabs>
+        </el-tabs>
 
       <!--      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;margin-left: 0px;" @click.native.prevent="handleLogin">注册到云账号</el-button>-->
 
@@ -129,7 +129,7 @@
       <!--        &lt;!&ndash;        <span> password: 123456</span>&ndash;&gt;-->
       <!--      </div>-->
 
-    </el-form>
+      </el-form>
     </div>
   </div>
 </template>
@@ -369,13 +369,14 @@ export default {
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {
-            //return this.$message.error('获取个人信息失败')
+            // return this.$message.error('获取个人信息失败')
             return 0
           }
-          //this.$message.success('获取个人信息成功')
+          // this.$message.success('获取个人信息成功')
           if (res.data.obj.role === 2) {
             setUserRole('admin')
           } else if (res.data.obj.role === 1) {
+            console.log('shige laoshi ')
             setUserRole('teacher')
           }
           // console.log(getUserRole())

@@ -13,18 +13,18 @@
       <el-col :span="24" :xs="24" :sm="24" :md="10" :lg="12" :xl="12" style="margin-bottom: 10px">
         <el-card class="box-card">
           <el-row>
-            <el-col :span="12">
-              <el-input
-                v-model="queryInfo.dataName"
-                placeholder="请输入数据字典value关键字"
-                class="inputSearch"
-                clearable
-                @clear="getDataDictionaryList"
-              >
-                <el-button slot="append" icon="el-icon-search" @click="getDataDictionaryList" />
-              </el-input>
-            </el-col>
-            <el-col :span="12">
+<!--            <el-col :span="12">-->
+<!--              <el-input-->
+<!--                v-model="queryInfo.dataName"-->
+<!--                placeholder="请输入数据字典value关键字"-->
+<!--                class="inputSearch"-->
+<!--                clearable-->
+<!--                @clear="getDataDictionaryList"-->
+<!--              >-->
+<!--                <el-button slot="append" icon="el-icon-search" @click="getDataDictionaryList" />-->
+<!--              </el-input>-->
+<!--            </el-col>-->
+            <el-col :span="22">
               <el-button
                 class="filter-item"
                 size="mini"
@@ -62,16 +62,16 @@
             </el-table-column>
           </el-table>
           <!-- 分页区域 -->
-          <el-pagination
-            :current-page="queryInfo.page"
-            :page-sizes="[5, 10, 15, 20]"
-            :page-size="queryInfo.pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-            align="right"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+<!--          <el-pagination-->
+<!--            :current-page="queryInfo.page"-->
+<!--            :page-sizes="[5, 10, 15, 20]"-->
+<!--            :page-size="queryInfo.pageSize"-->
+<!--            layout="total, sizes, prev, pager, next, jumper"-->
+<!--            :total="total"-->
+<!--            align="right"-->
+<!--            @size-change="handleSizeChange"-->
+<!--            @current-change="handleCurrentChange"-->
+<!--          />-->
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
@@ -81,7 +81,7 @@
               <el-col :span="12">
                 <span>字典详情</span>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="10">
                 <el-button
                   class="filter-item"
                   size="mini"
@@ -97,10 +97,10 @@
               <el-table-column label="字典值" prop="name" />
               <el-table-column label="code" prop="code" />
               <el-table-column label="排序" type="index" fixed />
-              <el-table-column label="升/降序"  fixed="right">
+              <el-table-column label="升/降序" fixed="right">
                 <template slot-scope="scope">
-                  <el-button size="mini" type='text'    @click.stop="sortUp(scope.$index, scope.row)">↑ </el-button>
-                  <el-button size="mini" type='text'    @click.stop="sortDown(scope.$index, scope.row)">↓</el-button>
+                  <el-button size="mini" type="text" @click.stop="sortUp(scope.$index, scope.row)">↑ </el-button>
+                  <el-button size="mini" type="text" @click.stop="sortDown(scope.$index, scope.row)">↓</el-button>
                   <!-- 编辑数据字典按钮 -->
 
                 </template>
@@ -150,7 +150,7 @@
     <el-dialog
       title="数据字典详情"
       :visible.sync="editDialogVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="editDDForm" :rules="editFormRules" label-width="80px">
@@ -184,7 +184,7 @@
     <el-dialog
       title="数据字典详情"
       :visible.sync="editDetailDialogVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="detailForm" :rules="editDetailFormRules" label-width="80px">
@@ -210,7 +210,7 @@
     <el-dialog
       title="新增数据字典"
       :visible.sync="addDictVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="addDictForm" :rules="addDictFormRules" label-width="80px">
@@ -233,10 +233,14 @@
     <el-dialog
       title="新增字典值"
       :visible.sync="addDetailVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
-      <el-form ref="editDDFormRef" :model="addDetailForm" :rules="addDetailFormRules" label-width="80px"
+      <el-form
+        ref="editDDFormRef"
+        :model="addDetailForm"
+        :rules="addDetailFormRules"
+        label-width="80px"
       >
         <el-form-item label="所属字典">
           <el-input v-model="addDetailForm.dictCode" disabled />
@@ -353,7 +357,7 @@ export default {
     this.getDataDictionaryList()
   },
   methods: {
-    sortUp (index, row) {
+    sortUp(index, row) {
       this.axios.put('/dictionary-detail/up/' + row.detailId)
       // console.log(row)
       if (index === 0) {
@@ -362,13 +366,12 @@ export default {
           type: 'warning'
         })
       } else {
-        let temp = this.dictDetailList[index - 1]
+        const temp = this.dictDetailList[index - 1]
         this.$set(this.dictDetailList, index - 1, this.dictDetailList[index])
         this.$set(this.dictDetailList, index, temp)
       }
-
     },
-    sortDown (index, row) {
+    sortDown(index, row) {
       this.axios.put('/dictionary-detail/down/' + row.detailId)
       if (index === (this.dictDetailList.length - 1)) {
         this.$message({
@@ -376,11 +379,10 @@ export default {
           type: 'warning'
         })
       } else {
-        let i = this.dictDetailList[index + 1]
+        const i = this.dictDetailList[index + 1]
         this.$set(this.dictDetailList, index + 1, this.dictDetailList[index])
         this.$set(this.dictDetailList, index, i)
       }
-
     },
     addDialogClosed() {
       this.$refs.addFormRef.resetFields()
@@ -430,7 +432,7 @@ export default {
       var arr = this
       this.nowDictCode = data.dictCode
       console.log(data.dictCode)
-      await this.axios.get('/dictionary-detail/' + data.dictCode +'/1/10/1')
+      await this.axios.get('/dictionary-detail/' + data.dictCode + '/1/10/1')
         .then(res => {
           if (res.data.code !== 200) {
             return this.$message.error('获取字典详情失败')
@@ -577,6 +579,7 @@ export default {
       this.axios.post('/dictionary-detail/' + this.addDetailForm.dictCode + '/' +
         this.addDetailForm.code + '/' + this.addDetailForm.name)
         .then(res => {
+          console.log(res)
           if (res.data.code !== 200) return this.$message.error('新增字典值失败！')
           this.$message.success('新增字典值成功！')
           this.addDetailVisible = false
@@ -586,12 +589,12 @@ export default {
         })
     },
     showAddDetailDialog() {
-     // console.log(this.nowDictCode + '-----' + this.nowCode )
-      this.addDetailVisible = true,
+      // console.log(this.nowDictCode + '-----' + this.nowCode )
+      this.addDetailVisible = true
       this.addDetailForm.dictCode = this.nowDictCode
       this.addDetailForm.code = this.nowCode
     },
-    //行拖拽
+    // 行拖拽
     rowDrop() {
       const tbody = document.querySelector('.el-table__body-wrapper tbody')
       const _this = this
@@ -602,7 +605,7 @@ export default {
         }
       })
     },
-    //列拖拽
+    // 列拖拽
     columnDrop() {
       const wrapperTr = document.querySelector('.el-table__header-wrapper tr')
       this.sortable = Sortable.create(wrapperTr, {
