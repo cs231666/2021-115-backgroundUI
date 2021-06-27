@@ -29,73 +29,76 @@
 
         </el-row>
         <!--          <el-table :data="courseList" stripe @row-click="getDictDetail">-->
-        <el-table :data="courseList" stripe :row-key="getRowKeys" :expand-row-keys="expands" @expand-change="showexpand">
-          <!--            <template slot-scope="scope" v-if="scope.row.childList.length>0">-->
-          <!--              <el-table :data="scope.row.childList" style="width=100%">-->
+        <div v-if="courseList.length>0">
+          <el-table :data="courseList" stripe :row-key="getRowKeys" :expand-row-keys="expands" @expand-change="showexpand">
+            <!--            <template slot-scope="scope" v-if="scope.row.childList.length>0">-->
+            <!--              <el-table :data="scope.row.childList" style="width=100%">-->
 
-          <!--              </el-table>-->
-          <!--            </template>-->
-          <el-table-column type="expand">
+            <!--              </el-table>-->
+            <!--            </template>-->
+            <el-table-column type="expand">
 
-            <template slot-scope="scope">
+              <template slot-scope="scope">
 
-              <el-card class="box-card">
-                <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-                  <el-tab-pane label="班课成员" name="first">
-                    <div v-if="scope.row.childList.length>0">
-                      <el-table :data="scope.row.childList" style="width=100%" border height="250">
+                <el-card class="box-card">
+                  <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                    <el-tab-pane label="班课成员" name="first">
+                      <div v-if="scope.row.childList.length>0">
+                        <el-table :data="scope.row.childList" style="width=100%" border height="250">
 
-                        <el-table-column label="ID" prop="studentId" width="150" />
-                        <el-table-column label="学生姓名" prop="realname" width="150" />
-                        <el-table-column label="经验值" prop="score" width="150" />
-                      </el-table>
-                    </div>
-                    <div v-else align="center">该班课没有学生</div></el-tab-pane>
-                  <el-tab-pane label="签到记录" name="second" height="250">
-                    <div v-if="scope.row.signinList.length>0">
-                      <el-table :data="scope.row.signinList" style="width=100%" border height="250" @row-click="getSignedList">
-                        <el-table-column label="id" prop="id" width="150" />
-                        <el-table-column label="发布时间" prop="createTime" width="250" />
-                      </el-table>
-                    </div>
-                    <div v-else align="center">该班课没有签到记录</div>
-                  </el-tab-pane>
-                </el-tabs>
-              </el-card>
-            </template>
+                          <el-table-column label="ID" prop="studentId" width="150" />
+                          <el-table-column label="学生姓名" prop="realname" width="150" />
+                          <el-table-column label="经验值" prop="score" width="150" />
+                        </el-table>
+                      </div>
+                      <div v-else align="center">该班课没有学生</div></el-tab-pane>
+                    <el-tab-pane label="签到记录" name="second" height="250">
+                      <div v-if="scope.row.signinList.length>0">
+                        <el-table :data="scope.row.signinList" style="width=100%" border height="250" @row-click="getSignedList">
+                          <el-table-column label="id" prop="id" width="150" />
+                          <el-table-column label="发布时间" prop="createTime" width="250" />
+                        </el-table>
+                      </div>
+                      <div v-else align="center">该班课没有签到记录</div>
+                    </el-tab-pane>
+                  </el-tabs>
+                </el-card>
+              </template>
 
-          </el-table-column>
-          <el-table-column label="班课名称" prop="courseName" width="150" />
-          <el-table-column label="教授班级" prop="className" width="120" />
-          <el-table-column label="授课教师" prop="teacher" width="100" />
-          <el-table-column label="学校院系" prop="org" width="250" />
-          <el-table-column label="授课学期" prop="term" width="120" />
-          <el-table-column v-if="isadmin" label="操作" width="350">
-            <!--              <el-table-column label="操作" width="150" fixed="right">-->
-            <template slot-scope="scope">
-              <!--              <el-button-->
-              <!--                type="success"-->
-              <!--                size="mini"-->
-              <!--                @click="showAddStuDialog(scope.row)"-->
-              <!--              >加入学生</el-button>-->
-              <!--
+            </el-table-column>
+            <el-table-column label="班课名称" prop="courseName" width="150" />
+            <el-table-column label="教授班级" prop="className" width="120" />
+            <el-table-column label="授课教师" prop="teacher" width="100" />
+            <el-table-column label="学校院系" prop="org" width="250" />
+            <el-table-column label="授课学期" prop="term" width="120" />
+            <el-table-column v-if="isadmin" label="操作" width="350">
+              <!--              <el-table-column label="操作" width="150" fixed="right">-->
+              <template slot-scope="scope">
+                <!--              <el-button-->
+                <!--                type="success"-->
+                <!--                size="mini"-->
+                <!--                @click="showAddStuDialog(scope.row)"-->
+                <!--              >加入学生</el-button>-->
+                <!--
 
 -->
-              <!-- 编辑数据字典按钮 -->
-              <el-button
-                type="primary"
-                size="mini"
-                @click="showEditDialog(scope.row)"
-              >编辑</el-button>
-              <!-- 删除数据字典按钮 -->
-              <el-button
-                type="danger"
-                size="mini"
-                @click="removeCourse(scope.row)"
-              >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+                <!-- 编辑数据字典按钮 -->
+<!--                <el-button-->
+<!--                  type="primary"-->
+<!--                  size="mini"-->
+<!--                  @click="showEditDialog(scope.row)"-->
+<!--                >编辑</el-button>-->
+                <!-- 删除数据字典按钮 -->
+                <el-button
+                  type="danger"
+                  size="mini"
+                  @click="removeCourse(scope.row)"
+                >删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div v-else align="center">您没有创建班课</div>
         <!-- 分页区域 -->
 
         <!--        <el-pagination-->
@@ -237,24 +240,26 @@
       :visible.sync="drawer"
       :direction="direction"
       :before-close="handleClose"
+      size="36%"
     >
-<!--      <el-table :data="signedList" stripe :row-key="getRowKeys" >-->
-<!--        &lt;!&ndash;            <template slot-scope="scope" v-if="scope.row.childList.length>0">&ndash;&gt;-->
-<!--        &lt;!&ndash;              <el-table :data="scope.row.childList" style="width=100%">&ndash;&gt;-->
+      <!--      <el-table :data="signedList" stripe :row-key="getRowKeys" >-->
+      <!--        &lt;!&ndash;            <template slot-scope="scope" v-if="scope.row.childList.length>0">&ndash;&gt;-->
+      <!--        &lt;!&ndash;              <el-table :data="scope.row.childList" style="width=100%">&ndash;&gt;-->
 
-<!--        &lt;!&ndash;              </el-table>&ndash;&gt;-->
-<!--        &lt;!&ndash;            </template>&ndash;&gt;-->
-<!--        <el-table-column label="学号" prop="studentId" width="100" />-->
-<!--        <el-table-column label="姓名" prop="realname" width="80" />-->
-<!--        <el-table-column label="签到时间" prop="signTime" width="250" />-->
-<!--      </el-table>-->
+      <!--        &lt;!&ndash;              </el-table>&ndash;&gt;-->
+      <!--        &lt;!&ndash;            </template>&ndash;&gt;-->
+      <!--        <el-table-column label="学号" prop="studentId" width="100" />-->
+      <!--        <el-table-column label="姓名" prop="realname" width="80" />-->
+      <!--        <el-table-column label="签到时间" prop="signTime" width="250" />-->
+      <!--      </el-table>-->
 
       <div v-if="signedList.length>0">
-        <el-table :data="signedList" style="width=100%" border height="250">
+        <el-table :data="signedList" style="width=100%;margin-left: 10px" border height="500">
 
           <el-table-column label="学号" prop="studentId" width="100" />
           <el-table-column label="姓名" prop="realname" width="80" />
-          <el-table-column label="签到时间" prop="signTime" width="250" />
+          <el-table-column label="签到时间" prop="signTime" width="240" />
+          <el-table-column label="距离(m)" prop="distance" width="80" />
         </el-table>
       </div>
       <div v-else align="center">没有签到记录</div>

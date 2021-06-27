@@ -1,85 +1,48 @@
 <template>
   <div class="app-container">
-    <!--面包屑-->
-    <!--    <el-breadcrumb separator-class="el-icon-arrow-right">-->
-    <!--      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
-    <!--      <el-breadcrumb-item>数据字典管理管理</el-breadcrumb-item>-->
-    <!--      <el-breadcrumb-item>数据字典列表</el-breadcrumb-item>-->
-    <!--    </el-breadcrumb>-->
-    <!--卡片区域-->
-
-    <!-- 搜索框 -->
-    <el-row class="searchRow" :gutter="20">
-      <el-col :span="24" :xs="24" :sm="24" :md="10" :lg="12" :xl="12" style="margin-bottom: 10px">
+    <el-row class="searchRow" :gutter="12">
+      <el-col :span="7" style="margin-bottom: 10px">
         <el-card class="box-card">
-          <el-row>
-            <!--            <el-col :span="12">-->
-            <!--              <el-input-->
-            <!--                v-model="queryInfo.dataName"-->
-            <!--                placeholder="请输入数据字典value关键字"-->
-            <!--                class="inputSearch"-->
-            <!--                clearable-->
-            <!--                @clear="getDataDictionaryList"-->
-            <!--              >-->
-            <!--                <el-button slot="append" icon="el-icon-search" @click="getDataDictionaryList" />-->
-            <!--              </el-input>-->
-            <!--            </el-col>-->
-            <el-col :span="22">
-              <el-button
-                class="filter-item"
-                size="mini"
-                style="float: right;padding: 4px 10px"
-                type="primary"
-                icon="el-icon-plus"
-                @click="addDictVisible= true"
-              >新增</el-button>
-            </el-col>
 
-          </el-row>
+          <el-button
+            class="filter-item"
+            size="mini"
+            style="float: right;padding: 4px 10px"
+            type="primary"
+            icon="el-icon-plus"
+            @click="addDictVisible= true"
+          >新增</el-button>
 
-          <el-table :data="dataDictionaryList" stripe @row-click="getDictDetail">
-            <!--            <el-table-column label="#" type="index" fixed />-->
-            <el-table-column label="名称" prop="dictName" />
-            <el-table-column label="关键字" prop="dictCode" />
-            <el-table-column label="描述" prop="description" />
-            <el-table-column label="操作" width="150" fixed="right">
-              <template slot-scope="scope">
-                <!-- 编辑数据字典按钮 -->
-                <el-button
-                  type="primary"
-                  icon="el-icon-edit"
-                  size="mini"
-                  @click="showEditDialog(scope.row)"
-                />
-                <!-- 删除数据字典按钮 -->
-                <el-button
-                  type="danger"
-                  icon="el-icon-delete"
-                  size="mini"
-                  @click="removeDD(scope.row)"
-                />
-              </template>
-            </el-table-column>
+          <el-table :data="dataDictionaryList" stripe width="300" @row-click="getDictDetail">
+            <el-table-column label="ID" prop="detailId" width="120" />
+            <el-table-column label="学校" prop="name" width="180" />
+<!--            <el-table-column label="操作" width="150" fixed="right">-->
+<!--              <template slot-scope="scope">-->
+<!--                &lt;!&ndash; 编辑数据字典按钮 &ndash;&gt;-->
+<!--                <el-button-->
+<!--                  type="primary"-->
+<!--                  icon="el-icon-edit"-->
+<!--                  size="mini"-->
+<!--                  @click="showEditDialog(scope.row)"-->
+<!--                />-->
+<!--                &lt;!&ndash; 删除数据字典按钮 &ndash;&gt;-->
+<!--                <el-button-->
+<!--                  type="danger"-->
+<!--                  icon="el-icon-delete"-->
+<!--                  size="mini"-->
+<!--                  @click="removeDD(scope.row)"-->
+<!--                />-->
+<!--              </template>-->
+<!--            </el-table-column>-->
           </el-table>
-          <!-- 分页区域 -->
-          <!--          <el-pagination-->
-          <!--            :current-page="queryInfo.page"-->
-          <!--            :page-sizes="[5, 10, 15, 20]"-->
-          <!--            :page-size="queryInfo.pageSize"-->
-          <!--            layout="total, sizes, prev, pager, next, jumper"-->
-          <!--            :total="total"-->
-          <!--            align="right"-->
-          <!--            @size-change="handleSizeChange"-->
-          <!--            @current-change="handleCurrentChange"-->
-          <!--          />-->
         </el-card>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
+      <el-col :span="10">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <el-row>
               <el-col :span="12">
-                <span>字典详情</span>
+                <span>学院详情</span>
               </el-col>
               <el-col :span="10">
                 <el-button
@@ -92,19 +55,22 @@
                 >新增</el-button>
               </el-col>
             </el-row>
-            <el-table :data="dictDetailList" stripe @row-click="getDictDetail">
-              <el-table-column label="所属字典" prop="dictCode" />
-              <el-table-column label="字典值" prop="name" />
-              <el-table-column label="code" prop="code" />
-              <el-table-column label="排序" type="index" fixed />
-              <el-table-column label="升/降序" fixed="right">
-                <template slot-scope="scope">
-                  <el-button size="mini" type="text" @click.stop="sortUp(scope.$index, scope.row)">↑ </el-button>
-                  <el-button size="mini" type="text" @click.stop="sortDown(scope.$index, scope.row)">↓</el-button>
-                  <!-- 编辑数据字典按钮 -->
+<!--            <el-table :data="dictDetailList" stripe @row-click="getDictDetail">-->
+            <div v-if="dictDetailList.length>0">
+            <el-table :data="dictDetailList" stripe >
 
-                </template>
-              </el-table-column>
+              <el-table-column label="ID" prop="detailId" width="120" />
+              <el-table-column label="学院" prop="name" width="180" />
+              <!--              <el-table-column label="code" prop="code" />-->
+              <!--              <el-table-column label="排序" type="index" fixed />-->
+              <!--              <el-table-column label="升/降序" fixed="right">-->
+              <!--                <template slot-scope="scope">-->
+              <!--                  <el-button size="mini" type="text" @click.stop="sortUp(scope.$index, scope.row)">↑ </el-button>-->
+              <!--                  <el-button size="mini" type="text" @click.stop="sortDown(scope.$index, scope.row)">↓</el-button>-->
+              <!--                  &lt;!&ndash; 编辑数据字典按钮 &ndash;&gt;-->
+
+              <!--                </template>-->
+              <!--              </el-table-column>-->
               <el-table-column label="操作" width="150" fixed="right">
                 <template slot-scope="scope">
                   <!-- 编辑数据字典按钮 -->
@@ -123,7 +89,9 @@
                   />
                 </template>
               </el-table-column>
-            </el-table>
+
+            </el-table></div>
+            <div v-else align="center">该学校没有添加学院</div>
           </div>
         </el-card>
       </el-col>
@@ -148,7 +116,7 @@
 
     <!-- 详情页对话框 -->
     <el-dialog
-      title="数据字典详情"
+      title="编辑学校"
       :visible.sync="editDialogVisible"
       width="30%"
       @close="editDialogClosed"
@@ -188,13 +156,13 @@
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="detailForm" :rules="editDetailFormRules" label-width="80px">
-        <el-form-item label="所属字典">
-          <el-input v-model="detailForm.dictCode" disabled />
-        </el-form-item>
-        <el-form-item label="原字典值">
+<!--        <el-form-item label="所属字典">-->
+<!--          <el-input v-model="detailForm.dictCode" disabled />-->
+<!--        </el-form-item>-->
+        <el-form-item label="原名称">
           <el-input v-model="detailForm.name" disabled />
         </el-form-item>
-        <el-form-item label="新字典值" prop="newName">
+        <el-form-item label="新名称" prop="newName">
           <el-input v-model="detailForm.newName" />
         </el-form-item>
         <!--        <el-form-item label="排序">-->
@@ -214,15 +182,15 @@
       @close="editDialogClosed"
     >
       <el-form ref="editDDFormRef" :model="addDictForm" :rules="addDictFormRules" label-width="80px">
-        <el-form-item label="名称" prop="dictName">
-          <el-input v-model="addDictForm.dictName" />
+        <el-form-item label="学校名称" prop="schoolName">
+          <el-input v-model="addDictForm.schoolName" />
         </el-form-item>
-        <el-form-item label="关键字" prop="dictCode">
-          <el-input v-model="addDictForm.dictCode" />
-        </el-form-item>
-        <el-form-item label="描述" prop="description">
-          <el-input v-model="addDictForm.description" />
-        </el-form-item>
+<!--        <el-form-item label="关键字" prop="dictCode">-->
+<!--          <el-input v-model="addDictForm.dictCode" />-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="描述" prop="description">-->
+<!--          <el-input v-model="addDictForm.description" />-->
+<!--        </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDictVisible = false">取 消</el-button>
@@ -242,11 +210,11 @@
         :rules="addDetailFormRules"
         label-width="80px"
       >
-        <el-form-item label="所属字典">
-          <el-input v-model="addDetailForm.dictCode" disabled />
+        <el-form-item label="所属学校">
+          <el-input v-model="addDetailForm.schoolName" disabled />
         </el-form-item>
-        <el-form-item label="字典值" prop="name">
-          <el-input v-model="addDetailForm.name" />
+        <el-form-item label="学院名称" prop="college">
+          <el-input v-model="addDetailForm.college" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -265,6 +233,7 @@ Vue.prototype.axios = axios
 export default {
   data() {
     return {
+      orgList: [],
       nowDictCode: '',
       nowCode: '',
       total: 0,
@@ -285,34 +254,40 @@ export default {
       },
       dataDictionaryList: [],
       dictDetailList: [],
-      detailForm: {
-        dictCode: '',
-        name: '',
-        description: '',
-        newName: '',
+      detailForm: { // xueyuan.
         detailId: '',
-        code: ''
+        name: '',
+        newName: ''
+        // dictCode: '',
+        // name: '',
+        // description: '',
+        // newName: '',
+        // detailId: '',
+        // code: ''
       },
       // 编辑数据字典信息
-      editDDForm: {
-        dictId: '',
-        dictCode: '',
-        dictName: '',
-        dataOrder: '',
-        newDictCode: '',
-        newDictName: '',
-        newDescription: ' '
+      editDDForm: { // 学校
+        detailId: '',
+        name: ''
+        // dictName: '',
+        // dataOrder: '',
+        // newDictCode: '',
+        // newDictName: '',
+        // newDescription: ' '
       },
       addDictForm: {
-        dictCode: '',
-        dictName: '',
-        description: ''
+        schoolName: ''
+        // dictCode: '',
+        //
+        // description: ''
       },
       addDetailForm: {
-        dictCode: '',
-        name: '',
-        description: '',
-        code: ''
+        schoolName: '',
+        college: ''
+        // dictCode: '',
+        // name: '',
+        // description: '',
+        // code: ''
       },
       // 添加表单的验证规则对象
       editFormRules: {
@@ -332,22 +307,22 @@ export default {
         ]
       },
       addDictFormRules: {
-        dictCode: [
-          { required: true, message: '请输入关键字', trigger: 'blur' },
-          { min: 2, max: 15, message: '关键字长度在2-15之间', trigger: 'blur' }
-        ],
-        dictName: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
+        // dictCode: [
+        //   { required: true, message: '请输入关键字', trigger: 'blur' },
+        //   { min: 2, max: 15, message: '关键字长度在2-15之间', trigger: 'blur' }
+        // ],
+        schoolName: [
+          { required: true, message: '请输入学校名称', trigger: 'blur' },
           { min: 1, max: 15, message: '名称长度在1-15之间', trigger: 'blur' }
-        ],
-        description: [
-          { required: true, message: '请输入描述', trigger: 'blur' },
-          { min: 1, max: 15, message: '描述长度在1-15之间', trigger: 'blur' }
         ]
+        // description: [
+        //   { required: true, message: '请输入描述', trigger: 'blur' },
+        //   { min: 1, max: 15, message: '描述长度在1-15之间', trigger: 'blur' }
+        // ]
       },
       addDetailFormRules: {
-        name: [
-          { required: true, message: '请输入字典值', trigger: 'blur' },
+        college: [
+          { required: true, message: '请输入学院名称', trigger: 'blur' },
           { min: 1, max: 15, message: '字典值长度在1-15之间', trigger: 'blur' }
         ]
       }
@@ -355,6 +330,9 @@ export default {
   },
   created() {
     this.getDataDictionaryList()
+    console.log('1231231231')
+    console.log(this.dataDictionaryList)
+
   },
   methods: {
     sortUp(index, row) {
@@ -390,14 +368,13 @@ export default {
     async getDataDictionaryList() {
       var arr = this
       // console.log(this.queryInfo)
-      await this.axios.get('/dictionary/' + this.queryInfo
-        .pageSize + '/' + this.queryInfo.page + '/1')
+      await this.axios.get('/org/school')
         // {
         // params: {
         //   limit: this.queryInfo.pageSize,
         //   page: this.queryInfo.page
         // }
-      // }
+        // }
         .then(res => {
           console.log(res.data)
           if (res.data.code !== 200) {
@@ -431,9 +408,10 @@ export default {
     },
     async getDictDetail(data) {
       var arr = this
-      this.nowDictCode = data.dictCode
-      console.log(data.dictCode)
-      await this.axios.get('/dictionary-detail/' + data.dictCode + '/1/10/1')
+      this.addDetailForm.schoolName = data.name
+      this.nowDictCode = data.detailId
+      console.log(data.name)
+      await this.axios.get('/org/next/' + data.detailId)
         .then(res => {
           if (res.data.code !== 200) {
             return this.$message.error('获取字典详情失败')
@@ -467,42 +445,43 @@ export default {
       this.$refs.editDDFormRef.resetFields()
     },
     // 修改数据字典
-    async editDD() {
+    editDD() {
       // 提交请求前，表单预验证
-      // 1. this.$refs.editDDFormRef.validate(async valid => {
-      // console.log(valid)
-      // 表单预校验失败
-      // 2. if (!valid) return
-      // const { data: res } = await this.$http.put(
-      //   'dataDictionary',
-      //   this.editDDForm
-      // )
-      // console.log(this.editDDForm.dictId)
-      await this.axios.put('/dictionary/' + this.editDDForm.dictId +
+      this.$refs.editDDFormRef.validate(async valid => {
+        // console.log(valid)
+        // 表单预校验失败
+        if (!valid) return
+        // const { data: res } = await this.$http.put(
+        //   'dataDictionary',
+        //   this.editDDForm
+        // )
+        // console.log(this.editDDForm.dictId)
+        await this.axios.put('/dictionary/' + this.editDDForm.dictId +
           '/' + this.editDDForm.newDictCode + '/' +
           this.editDDForm.newDictName + '/' + this.editDDForm.newDescription)
-        .then(res => {
-          if (res.data.code !== 200) {
-            this.$message.error('更新数据字典失败！')
-          }
-          // 隐藏添加用户对话框
-          this.editDialogVisible = false
-          this.$message.success('更新数据字典成功！')
-          this.getDataDictionaryList()
-        })
-      // 3. })
+          .then(res => {
+            if (res.data.code !== 200) {
+              this.$message.error('更新数据字典失败！')
+            }
+            // 隐藏添加用户对话框
+            this.editDialogVisible = false
+            this.$message.success('更新数据字典成功！')
+            this.getDataDictionaryList()
+          })
+      })
     },
     async editDetail() {
       // console.log(this.detailForm.detailId)
-      await this.axios.put('/dictionary-detail/' + this.detailForm.detailId +
+      await this.axios.put('/dictionary-detail/updateCollege/' + this.detailForm.detailId +
         '/' + this.detailForm.newName)
         .then(res => {
+          console.log(res)
           if (res.data.code !== 200) {
-            this.$message.error('更新字典值失败！')
+            this.$message.error('更新学院名称失败！')
           }
           // 隐藏添加用户对话框
           this.editDetailDialogVisible = false
-          this.$message.success('更新字典值成功！')
+          this.$message.success('更新学院名称成功！')
           this.dictDetailList = ''
           this.getDataDictionaryList()
           this.getDictDetail()
@@ -538,7 +517,7 @@ export default {
     async removeDetail(dataForm) {
       // console.log('removeDetail' + dataForm.detailId)
       const confirmResult = await this.$confirm(
-        '此操作将永久删除字典值, 是否继续?',
+        '此操作将永久删除该学院, 是否继续?',
         '提示',
         {
           confirmButtonText: '确定',
@@ -552,10 +531,10 @@ export default {
         return this.$message.info('已取消删除')
       }
       // console.log(dataForm)
-      await this.axios.delete('/dictionary-detail/' + dataForm.detailId).then(res => {
+      await this.axios.post('/dictionary-detail/deleteCollege/' + dataForm.detailId).then(res => {
         // console.log(res)
-        if (res.data.code !== 200) return this.$message.error('删除数据字典失败！')
-        this.$message.success('删除数据字典成功！')
+        if (res.data.code !== 200) return this.$message.error('删除学院失败！')
+        this.$message.success('删除学院成功！')
         this.dictDetailList = ''
         this.getDictDetail()
       }
@@ -564,11 +543,10 @@ export default {
     },
     addDict() {
       // console.log(this.addDictForm)
-      this.axios.post('/dictionary/' + this.addDictForm.dictCode + '/' +
-        this.addDictForm.dictName + '/' + this.addDictForm.description)
+      this.axios.post('/dictionary-detail/' + this.addDictForm.schoolName)
         .then(res => {
-          if (res.data.code !== 200) return this.$message.error('新增数据字典失败！')
-          this.$message.success('新增数据字典成功！')
+          if (res.data.code !== 200) return this.$message.error('新增学校失败！')
+          this.$message.success('新增学校成功！')
           this.addDictVisible = false
           // this.dictDetailList = ''
           // this.getDictDetail()
@@ -577,12 +555,13 @@ export default {
     },
     addDetail() {
       // console.log(this.addDetailForm)
-      this.axios.post('/dictionary-detail/' + this.addDetailForm.dictCode + '/' +
-        this.addDetailForm.code + '/' + this.addDetailForm.name)
+      this.axios.post('/dictionary-detail/add/' + this.addDetailForm.schoolName + '/' +
+        this.addDetailForm.college)
         .then(res => {
+          console.log('123')
           console.log(res)
-          if (res.data.code !== 200) return this.$message.error('新增字典值失败！')
-          this.$message.success('新增字典值成功！')
+          if (res.data.code !== 200) return this.$message.error('新增学院失败！')
+          this.$message.success('新增学院成功！')
           this.addDetailVisible = false
           // this.dictDetailList = ''
           // this.getDictDetail()

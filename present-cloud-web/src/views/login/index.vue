@@ -188,7 +188,7 @@ export default {
       },
       fullWidth: document.documentElement.clientWidth,
       loginForm: {
-        username: '15750735837',
+        username: '15900000001',
         password: '123456'
       },
       loginByVerifyCodeForm: {
@@ -343,6 +343,7 @@ export default {
           // 打印token
           // 判断是否登录成功
           if (successResponse.data.code === 200) {
+
             setUser(this.loginForm.username)
             setToken(successResponse.data.obj.token)
             this.getUserInfo()
@@ -378,6 +379,8 @@ export default {
           } else if (res.data.obj.role === 1) {
             console.log('shige laoshi ')
             setUserRole('teacher')
+          }else{
+            setUserRole('student')
           }
           // console.log(getUserRole())
           arr.dataForm = res.data.obj

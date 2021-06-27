@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
     <el-card class="box-card">
-    <div class="dashboard-text">欢迎{{ dataForm.realname+ ' (' + this.role + ') ' }}使用到云管理系统</div>
+<!--    <div class="dashboard-text">欢迎{{ dataForm.realname+ ' (' + this.role + ') ' }}使用到云管理系统</div>-->
+      <div class="dashboard-text">欢迎{{ dataForm.realname }}使用到云管理系统</div>
     </el-card>
   </div>
 </template>

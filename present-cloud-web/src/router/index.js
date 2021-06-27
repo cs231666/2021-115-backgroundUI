@@ -43,21 +43,25 @@ export const constantRoutes = [
   {
     path: '/forgetPsw',
     component: () => import('@/views/forgetpsw/index'),
+    meta: {  requireAuth: false },
     hidden: true
   },
   {
     path: '/register',
     component: () => import('@/views/register/index'),
+    meta: {  requireAuth: false },
     hidden: true
   },
   {
     path: '/403',
     component: () => import('@/views/exception/403'),
+    meta: {  requireAuth: false },
     hidden: true
   },
   {
     path: '/404',
     component: () => import('@/views/exception/404'),
+    meta: {  requireAuth: false },
     hidden: true
   },
   {
@@ -73,7 +77,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '首页', icon: 'el-icon-s-home', requireAuth: true, roles: ['teacher', 'admin'] }
+      meta: { title: '首页', icon: 'el-icon-s-home', requireAuth: false, roles: ['teacher', 'admin'] }
     }]
   },
   {
@@ -87,7 +91,7 @@ export const constantRoutes = [
         path: 'userinfo',
         name: 'Table',
         component: () => import('@/user/userinf/userinf'),
-        meta: { title: '个人信息', requireAuth: true, roles: ['teacher', 'admin'] }
+        meta: { title: '个人信息', requireAuth: true, roles: ['teacher', 'admin','student'] }
       }
     ]
   },
@@ -163,7 +167,7 @@ export const constantRoutes = [
       {
         path: 'org',
         name: '用户管理',
-        component: () => import('@/views/system/usermanagement/usermanagement'),
+        component: () => import('@/views/system/orgmanagement/index'),
         meta: { title: '组织管理', requireAuth: true, roles: ['admin'] }
       },
       {
