@@ -24,7 +24,7 @@
               type="primary"
               icon="el-icon-plus"
               @click="addCourseVisible= true"
-            >新增</el-button>
+            >班课</el-button>
           </el-col>
 
         </el-row>
@@ -56,10 +56,10 @@
                       <div v-if="scope.row.signinList.length>0">
                         <el-table :data="scope.row.signinList" style="width=100%" border height="250" @row-click="getSignedList">
                           <el-table-column label="id" prop="id" width="150" />
-                          <el-table-column label="发布时间" prop="createTime" width="250" />
+                          <el-table-column label="签到记录" prop="createTime" width="250" />
                         </el-table>
                       </div>
-                      <div v-else align="center">该班课没有签到记录</div>
+                      <div v-else align="center">该班课没有发起过签到</div>
                     </el-tab-pane>
                   </el-tabs>
                 </el-card>

@@ -15,7 +15,7 @@
                 type="primary"
                 icon="el-icon-plus"
                 @click="addSysParamVisible = true"
-              >新增</el-button>
+              >参数</el-button>
             </el-col>
           </el-row>
           <el-table :data="sysParamList" stripe>

@@ -32,7 +32,7 @@
                 type="primary"
                 icon="el-icon-plus"
                 @click="addDictVisible= true"
-              >新增</el-button>
+              >字典</el-button>
             </el-col>
 
           </el-row>
@@ -89,7 +89,7 @@
                   type="primary"
                   icon="el-icon-plus"
                   @click="showAddDetailDialog()"
-                >新增</el-button>
+                >字典值</el-button>
               </el-col>
             </el-row>
             <el-table :data="dictDetailList" stripe @row-click="getDictDetail">
